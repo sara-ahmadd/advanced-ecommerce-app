@@ -1,0 +1,17 @@
+@use "../../sass/global/mixins" as *;
+@use "../../sass/global/variables" as *;
+/*
+Footer Links Styles*/
+.social {
+  i {
+    font-size: 40px;
+    a {
+      @include transition-(0.3s);
+      color: $white-color;
+      &:hover {
+        color: $white-color;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,126 @@
+@use "../../sass/global/mixins" as *;
+@use "../../sass/global/variables" as *;
+
+/*
+Side bar styles*/
+.side-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  @include myMediaQueries(small) {
+    width: 50%;
+  }
+  @include myMediaQueries(mobile) {
+    width: 90%;
+  }
+  padding: 20px;
+  z-index: 33;
+  background-color: $background-color;
+  display: block;
+  @include transition-(0.6s);
+  transform: translateX(-1000px);
+  .logo-container {
+    @include flex-center;
+    svg {
+      font-size: 2rem;
+      cursor: pointer;
+      @include transition-(0.2s);
+      &:hover {
+        color: $text-color;
+      }
+    }
+  }
+  .items-list {
+    padding: 10px;
+    @include flex-center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: bold;
+    li {
+      width: 100%;
+    }
+    li a {
+      text-align: left;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      width: 100%;
+      gap: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      @include transition-(0.2s);
+      &:hover {
+        color: $text-color;
+      }
+      svg {
+        background-color: #fff;
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+        @include border-radius-50;
+      }
+    }
+    li {
+      &.list-item > a,
+      .cart-container h2 a {
+        width: 100%;
+        height: 100%;
+        @include transition-(0.2s);
+        padding: 15px;
+        @include border-radius-10px;
+        &:hover {
+          color: $text-color;
+          padding-top: 10px;
+        }
+        &.active {
+          background-color: $white-color;
+        }
+      }
+      & > .cart-container {
+        @include flex-center;
+        justify-content: start;
+        gap: 5px;
+        .cart-icon {
+          @include flex-center;
+          position: relative;
+          .count {
+            position: absolute;
+            right: 0;
+            top: -18px;
+            font-size: 20px;
+          }
+          svg {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+    }
+    .admin-btn {
+      width: 70px;
+      height: 40px;
+      padding: 10px;
+      @include border-radius-10px;
+      border: none;
+      cursor: pointer;
+      background-color: #fff;
+      font-weight: bold;
+      font-size: 1rem;
+      &:focus {
+        outline: none;
+        background-color: #eee;
+      }
+    }
+  }
+}

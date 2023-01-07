@@ -1,0 +1,30 @@
+@use "./global/global-rules" as *;
+@use "./global/mixins" as *;
+@use "./global/variables" as *;
+@use "../pages/Admin/Admin";
+@use "../pages/Cart/Cart";
+@use "../pages/Home/Home";
+@use "../pages/OrdersHistory/Orders";
+@use "../pages/ContactUs/Contact";
+@use "../components/Header/Header";
+@use "../components/Footer/Footer";
+@use "../components/GeneralComponents/GeneralComponents";
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;500;600;700&display=swap");
+body {
+  text-align: left;
+  background-color: #eee;
+  text-align: center;
+  font-family: "Raleway", sans-serif;
+}
+.custom-container {
+  width: 90vw;
+  margin: 20px auto;
+}
+a {
+  color: $black-color !important;
+  text-decoration: none !important;
+  &.active,
+  &:hover {
+    color: $text-color !important;
+  }
+}

@@ -1,0 +1,136 @@
+@use "../../sass/global/mixins" as *;
+@use "../../sass/global/variables" as *;
+
+#header {
+  position: relative;
+  nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $background-color;
+    padding: 5px 10px;
+    flex-direction: row;
+    @include border-radius-10px;
+    .items-list {
+      @include myMediaQueries(small) {
+        display: none;
+      }
+      @include myMediaQueries(mobile) {
+        display: none;
+      }
+      padding: 10px;
+      @include flex-center;
+      gap: 15px;
+      width: 60%;
+      @include myMediaQueries(x-large) {
+        width: 30%;
+        gap: 10px;
+      }
+      font-size: 1.1rem;
+      font-weight: bold;
+      .profile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        cursor: pointer;
+        svg {
+          background-color: $white-color;
+          padding: 5px;
+          height: 40px;
+          width: 40px;
+          @include border-radius-50;
+        }
+        h2 {
+          color: $dim-white-color;
+          font-size: 20px;
+        }
+      }
+      li {
+        height: 100%;
+        &.list-item > a,
+        & > .cart-container h2 a {
+          cursor: pointer;
+          width: 100%;
+          height: 100%;
+          padding: 10px;
+          @include transition-(0.2s);
+          &.active {
+            border-bottom: 4px solid $white-color;
+          }
+          &:hover {
+            color: $text-color;
+          }
+        }
+        & > .cart-container {
+          cursor: pointer;
+          display: flex;
+          width: 10%;
+          @include flex-center;
+          gap: 5px;
+          .cart-icon {
+            @include flex-center;
+            position: relative;
+            .count {
+              position: absolute;
+              right: 0;
+              top: -15px;
+              font-size: 20px;
+            }
+            svg {
+              width: 40px;
+              height: 40px;
+            }
+          }
+          h2 {
+            font-size: 20px;
+          }
+        }
+        .admin-btn {
+          width: 70px;
+          height: 40px;
+          padding: 10px;
+          @include border-radius-10px;
+          border: none;
+          cursor: pointer;
+          background-color: #fff;
+          font-weight: bold;
+          font-size: 1rem;
+          &:focus {
+            outline: none;
+            background-color: #eee;
+          }
+        }
+      }
+      @include myMediaQueries(medium) {
+        width: 70%;
+      }
+    }
+    .burger-icon {
+      background-color: transparent;
+      border: none;
+      display: none;
+      @include myMediaQueries(small) {
+        display: block;
+      }
+      @include myMediaQueries(mobile) {
+        display: block;
+      }
+      &:focus {
+        outline: none;
+      }
+      i {
+        font-size: 30px;
+        cursor: pointer;
+        display: none;
+        @include myMediaQueries(small) {
+          display: block;
+        }
+        @include myMediaQueries(mobile) {
+          display: block;
+        }
+      }
+    }
+  }
+}

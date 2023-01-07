@@ -1,0 +1,60 @@
+/*
+Contact Us Styles*/
+
+@use "../../sass/global/mixins" as *;
+@use "../../sass/global/variables" as *;
+#contact {
+  display: flex;
+  @include myMediaQueries(small) {
+    flex-direction: column;
+  }
+  @include myMediaQueries(mobile) {
+    flex-direction: column;
+  }
+  form {
+    padding: 10px 20px;
+    width: 50%;
+    .submit-btn {
+      @include border-radius-10px;
+      background-color: $text-color;
+      color: $white-color;
+    }
+    @include myMediaQueries(small) {
+      width: 100%;
+    }
+    @include myMediaQueries(mobile) {
+      width: 100%;
+    }
+  }
+  .contact-text .card {
+    width: 100%;
+    height: fit-content;
+    background-color: $text-color;
+    color: $white-color;
+    .card-link {
+      background-color: $white-color;
+      display: block;
+      width: fit-content;
+      padding: 10px;
+      color: $text-color !important;
+      @include border-radius-10px;
+      font-weight: bold;
+      ul.media-list {
+        li {
+          div {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 10px;
+          }
+        }
+      }
+    }
+    @include myMediaQueries(small) {
+      width: 100%;
+    }
+    @include myMediaQueries(mobile) {
+      width: 100%;
+    }
+  }
+}

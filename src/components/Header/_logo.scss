@@ -1,0 +1,19 @@
+/*
+Logo styles.*/
+@use "../../sass/global/mixins" as *;
+@use "../../sass/global/variables" as *;
+
+.logo {
+  width: 200px;
+  height: 80px;
+  @include flex-center;
+  h1 {
+    flex: 1;
+    font-size: 25px;
+  }
+  img {
+    flex: 1;
+    width: 50px;
+    height: 50px;
+  }
+}
