@@ -567,8 +567,9 @@ Footer Links Styles*/
 /*
 Footer Styles*/
 .footer {
-  background-color: rgba(7, 133, 99, 0.933);
+  background-color: rgb(215, 244, 236);
   margin-top: 30px;
+  padding: 2rem;
   height: fit-content;
 }
 .footer .container {

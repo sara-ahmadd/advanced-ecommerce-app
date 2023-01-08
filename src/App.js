@@ -11,8 +11,8 @@ const { Header, Footer, ErrorBoundary, NotFound } = Components;
 function App() {
   return (
     <div className="App">
-      <ErrorBoundary>
         <h2>Easy Shopping</h2>
+      <ErrorBoundary>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
