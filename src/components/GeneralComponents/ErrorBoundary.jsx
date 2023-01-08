@@ -14,7 +14,11 @@ export class ErrorBoundary extends Component {
   }
   render() {
     if (this.state.errorOcurred === true) {
-      return <h1 className="container">Error Boundary Works Properly....</h1>;
+      return (
+        <h1 className="container custom-container ">
+          Error Boundary Works Properly....
+        </h1>
+      );
     } else {
       return this.props.children;
     }

@@ -3,13 +3,17 @@ import { FaTwitter } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import SocialMedia from "./SocialMedia";
 import "./_Footer.scss";
+import Logo from "../Header/Logo";
 
 export const Footer = () => {
+  let date = new Date();
+  let year = date.getFullYear();
+
   return (
     <div className="footer">
       <div className="container">
         <div className="txt">
-          <h3>Made By Sara</h3>
+          <Logo />
           <p>
             Laboris minim tempor commodo do ut cupidatat consequat adipisicing
             non amet in. Esse laboris occaecat ea tempor. Laborum duis amet anim
@@ -18,7 +22,7 @@ export const Footer = () => {
           </p>
         </div>
         <div>
-          <h3 className="title">Follow Me On Social Media</h3>
+          <h3 className="title">Follow Us On Social Media</h3>
           <ul className="links">
             <SocialMedia />
             <li>
@@ -45,6 +49,7 @@ export const Footer = () => {
           </ul>
         </div>
       </div>
+      <p className="rights">&copy;{year} All Rights Are Reserved</p>
     </div>
   );
 };

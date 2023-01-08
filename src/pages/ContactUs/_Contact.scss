@@ -39,14 +39,15 @@ Contact Us Styles*/
       color: $text-color !important;
       @include border-radius-10px;
       font-weight: bold;
-      ul.media-list {
-        li {
-          div {
-            display: flex;
-            justify-content: start;
-            align-items: center;
-            gap: 10px;
-          }
+    }
+    ul.media-list {
+      li {
+        .media-listitem-container {
+          display: flex;
+          justify-content: flex-start;
+          align-items: baseline;
+          font-size: 1.2rem;
+          gap: 10px;
         }
       }
     }

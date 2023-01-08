@@ -6,9 +6,11 @@ import SideBar from "./SideBar";
 export const Header = () => {
   const [showSide, setShowSide] = useState(false);
   return (
-    <header className="container" id="header">
-      <NavBar show={showSide} setShow={setShowSide} />
-      <SideBar show={showSide} setShow={setShowSide} />
+    <header id="header">
+      <div className="container">
+        <NavBar show={showSide} setShow={setShowSide} />
+        <SideBar show={showSide} setShow={setShowSide} />
+      </div>
     </header>
   );
 };

@@ -3,13 +3,19 @@
 /*
 Footer Links Styles*/
 .social {
-  i {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+  @include myMediaQueries(small) {
+    gap: 5px;
+  }
+  svg {
     font-size: 40px;
     a {
       @include transition-(0.3s);
-      color: $white-color;
+      color: $black-color !important;
       &:hover {
-        color: $white-color;
+        color: $text-color;
         cursor: pointer;
       }
     }

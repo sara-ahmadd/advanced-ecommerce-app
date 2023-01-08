@@ -60,15 +60,15 @@ const Contact = () => {
             </p>
             <ul className="media-list">
               <li>
-                <div>
+                <div className="media-listitem-container">
                   <i>
                     <BsFillTelephoneFill />
                   </i>
-                  <p>Phone</p>
+                  <p>+555-333-444</p>
                 </div>
               </li>
               <li>
-                <div>
+                <div className="media-listitem-container">
                   <i>
                     <BiLocationPlus />
                   </i>
@@ -76,7 +76,7 @@ const Contact = () => {
                 </div>
               </li>
               <li>
-                <div>
+                <div className="media-listitem-container">
                   <i>
                     <HiOutlineMail />
                   </i>
@@ -84,7 +84,7 @@ const Contact = () => {
                 </div>
               </li>
               <li>
-                <div>
+                <div className="media-listitem-container">
                   <i>
                     <AiOutlineTwitter />
                   </i>
