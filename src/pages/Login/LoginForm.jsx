@@ -8,10 +8,13 @@ import React, { useState } from "react";
 // } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
+import { getProducts } from "../../firebase/firebase";
+import { logInFunction } from "../../firebase/functions/login";
 
 function LoginForm() {
   const [loginForm, setLoginForm] = useState({
     firstName: "",
+    lastName: "",
     loginEmail: "",
     loginPassword: "",
   });
@@ -29,24 +32,18 @@ function LoginForm() {
     });
   };
   const handleLoginSubmit = (e) => {
-    // const { loginEmail, loginPassword } = loginForm;
+    const { loginEmail, loginPassword } = loginForm;
     e.preventDefault();
     dispatch(userActions.login(loginForm));
     console.log(user);
+    logInFunction(loginEmail, loginPassword);
     setLoginForm({
       firstName: "",
+      lastName: "",
       loginEmail: "",
       loginPassword: "",
     });
-    // signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-    //   .then((userCredintial) => {
-    // console.log(`User Logged In : `, userCredintial.user);
-    // setLoginForm({
-    //   loginEmail: "",
-    //   loginPassword: "",
-    // });
-    //   })
-    //   .catch((err) => console.log(err.message));
+    getProducts();
   };
   //   const subscribe = () => {
   //     const unsub = onAuthStateChanged(auth, (user) => {
@@ -56,7 +53,7 @@ function LoginForm() {
   //   };
   //
 
-  const { loginEmail, loginPassword, firstName } = loginForm;
+  const { loginEmail, loginPassword, firstName, lastName } = loginForm;
 
   return (
     <div>
@@ -71,7 +68,7 @@ function LoginForm() {
         }}
       >
         <div className="my-4 text-center">
-          <h1>Logging In</h1>
+          <h1>Log In</h1>
           <div className="mb-3">
             <label htmlFor="exampleInputUserName`" className="form-label">
               User Name
@@ -83,6 +80,18 @@ function LoginForm() {
               type="text"
               className="form-control"
               id="exampleInputUserName`"
+              aria-describedby="user-name"
+            />
+            <label htmlFor="exampleInputUserName`" className="form-label">
+              User Last Name
+            </label>
+            <input
+              value={lastName}
+              name="lastName"
+              onChange={(e) => handleInputValue(e)}
+              type="text"
+              className="form-control"
+              id="exampleInputUserlastName`"
               aria-describedby="user-name"
             />
             <label htmlFor="exampleInputEmail1`" className="form-label">
@@ -114,9 +123,11 @@ function LoginForm() {
               id="exampleInputPassword1`"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
-            Log in
-          </button>
+          <input
+            type="submit"
+            className="btn btn-primary submit-btn"
+            value={"Log In"}
+          />
         </div>
         {/* <div className="my-4">
           <h1>Logging Out</h1>

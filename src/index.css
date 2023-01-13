@@ -206,7 +206,7 @@ Logo styles.*/
 /*
 Side bar styles*/
 .side-bar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
@@ -282,7 +282,7 @@ Side bar styles*/
 .side-bar .items-list .profile {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   width: 100%;
   gap: 6px;
   font-size: 15px;
@@ -337,7 +337,7 @@ Side bar styles*/
   justify-content: space-between;
   gap: 10px;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 5px;
 }
 .side-bar .items-list li > .cart-container .cart-icon {
@@ -357,10 +357,11 @@ Side bar styles*/
   width: 30px;
   height: 30px;
 }
-.side-bar .items-list .admin-btn {
-  width: 70px;
+.side-bar .items-list .admin-btn,
+.side-bar .items-list .logOut-btn {
+  min-width: 70px;
   height: 40px;
-  padding: 10px;
+  padding: 6px;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -372,7 +373,8 @@ Side bar styles*/
   font-weight: bold;
   font-size: 1rem;
 }
-.side-bar .items-list .admin-btn:focus {
+.side-bar .items-list .admin-btn:focus,
+.side-bar .items-list .logOut-btn:focus {
   outline: none;
   background-color: #eee;
 }
@@ -497,10 +499,10 @@ Side bar styles*/
 }
 #header nav .items-list li .admin-btn,
 #header nav .items-list li .logOut-btn {
-  min-width: 70px;
+  min-width: 80px;
   height: 40px;
   text-align: center;
-  padding: 10px;
+  padding: 6px;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -563,7 +565,7 @@ Footer Links Styles*/
 .social {
   display: flex;
   gap: 10px;
-  justify-content: end;
+  justify-content: flex-end;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .social {
@@ -683,8 +685,7 @@ Footer Styles*/
 body {
   text-align: left;
   background-color: #eee;
-  text-align: center;
-  font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif !important;
 }
 
 .custom-container {
@@ -699,6 +700,16 @@ a {
 }
 a.active, a:hover {
   color: rgba(7, 133, 99, 0.933) !important;
+}
+
+.submit-btn {
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  background-color: rgba(7, 133, 99, 0.933) !important;
+  color: #fff !important;
 }
 
 /*# sourceMappingURL=index.css.map */

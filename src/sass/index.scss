@@ -13,8 +13,7 @@
 body {
   text-align: left;
   background-color: #eee;
-  text-align: center;
-  font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif !important;
 }
 .custom-container {
   width: 90vw;
@@ -28,4 +27,9 @@ a {
   &:hover {
     color: $text-color !important;
   }
+}
+.submit-btn {
+  @include border-radius-10px;
+  background-color: $text-color !important;
+  color: $white-color !important;
 }

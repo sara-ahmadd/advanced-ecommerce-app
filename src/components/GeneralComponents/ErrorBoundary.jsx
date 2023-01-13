@@ -16,7 +16,7 @@ export class ErrorBoundary extends Component {
     if (this.state.errorOcurred === true) {
       return (
         <h1 className="container custom-container ">
-          Error Boundary Works Properly....
+          Somthing went wrong with your component.
         </h1>
       );
     } else {

@@ -58,7 +58,7 @@ Side bar styles*/
     .profile {
       display: flex;
       align-items: center;
-      justify-content: start;
+      justify-content: flex-start;
       width: 100%;
       gap: 6px;
       font-size: 15px;
@@ -93,7 +93,7 @@ Side bar styles*/
       }
       & > .cart-container {
         @include flex-center;
-        justify-content: start;
+        justify-content: flex-start;
         gap: 5px;
         .cart-icon {
           @include flex-center;
@@ -113,8 +113,9 @@ Side bar styles*/
     }
     .admin-btn,
     .logOut-btn {
-      min-width: 70px;
+      width: 90px;
       height: 40px;
+      text-align: center;
       padding: 6px;
       @include border-radius-10px;
       border: none;

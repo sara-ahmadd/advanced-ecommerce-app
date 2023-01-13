@@ -20,7 +20,7 @@ function SideBar({ show, setShow }) {
         <Logo />
         <i onClick={() => setShow(false)}>{show ? <SlClose /> : null}</i>
       </div>
-      <List hideSideBar={sideBar} />
+      <List hideSideBar={sideBar} show={show} />
     </div>
   );
 }

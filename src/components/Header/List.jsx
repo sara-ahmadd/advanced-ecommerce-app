@@ -5,12 +5,18 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 
-function List({ hideSideBar }) {
-  const { user } = useSelector((state) => {
+function List({ hideSideBar, show }) {
+  const { user, authorized } = useSelector((state) => {
     return {
       user: state.userReducer.user,
+      authorized: state.userReducer.authorized,
     };
   });
+  const sideBareDisappear = () => {
+    if (show) {
+      hideSideBar();
+    }
+  };
   const dispatch = useDispatch();
   return (
     <ul className="items-list">
@@ -18,20 +24,20 @@ function List({ hideSideBar }) {
         <NavLink
           to="/admin"
           onClick={() => {
-            hideSideBar();
+            sideBareDisappear();
           }}
           className="admin-btn"
         >
           Admin
         </NavLink>
       </li>
-      {user !== {} && user.firstName ? (
+      {user !== {} && authorized && user.firstName ? (
         <>
           <li className="list-item">
             <NavLink
-              to="/User"
+              to="/user"
               onClick={() => {
-                hideSideBar();
+                sideBareDisappear();
               }}
               className="profile"
             >
@@ -44,7 +50,7 @@ function List({ hideSideBar }) {
           <li className="list-item">
             <button
               onClick={() => {
-                hideSideBar();
+                sideBareDisappear();
                 dispatch(userActions.logOut());
               }}
               className="logOut-btn"
@@ -59,7 +65,7 @@ function List({ hideSideBar }) {
             <NavLink
               to="/login"
               onClick={() => {
-                hideSideBar();
+                sideBareDisappear();
               }}
             >
               Log In
@@ -68,7 +74,7 @@ function List({ hideSideBar }) {
           <li
             className="list-item"
             onClick={() => {
-              hideSideBar();
+              sideBareDisappear();
             }}
           >
             <NavLink to="/signUp">Sign Up</NavLink>
@@ -80,7 +86,7 @@ function List({ hideSideBar }) {
         <NavLink
           to="/orders"
           onClick={() => {
-            hideSideBar();
+            sideBareDisappear();
           }}
         >
           My Orders
@@ -90,7 +96,7 @@ function List({ hideSideBar }) {
         <NavLink
           to="/contact"
           onClick={() => {
-            hideSideBar();
+            sideBareDisappear();
           }}
         >
           Contact Us
@@ -100,7 +106,7 @@ function List({ hideSideBar }) {
         <NavLink
           to="/cart"
           onClick={() => {
-            hideSideBar();
+            sideBareDisappear();
           }}
           className="cart-container"
         >

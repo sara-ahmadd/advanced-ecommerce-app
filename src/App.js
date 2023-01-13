@@ -15,45 +15,56 @@ function App() {
     <div className="App">
       <ErrorBoundary>
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="admin"
-            element={
-              <RequireAuth>
-                <Admin />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="user"
-            element={
-              <RequireAuth>
-                <User />
-              </RequireAuth>
-            }
-          />
-          <Route path="login" element={<LoginForm />} />
-          <Route path="signUp" element={<SignUpForm />} />
-          <Route
-            path="cart"
-            element={
-              <RequireAuth>
-                <Cart />
-              </RequireAuth>
-            }
-          />
-          <Route path="contact" element={<Contact />} />
-          <Route
-            path="orders"
-            element={
-              <RequireAuth>
-                <Orders />
-              </RequireAuth>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      </ErrorBoundary>
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        <Route
+          path="admin"
+          element={
+            <RequireAuth>
+              <Admin />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="user"
+          element={
+            <RequireAuth>
+              <User />
+            </RequireAuth>
+          }
+        />
+
+        <Route path="login" element={<LoginForm />} />
+
+        <Route path="signUp" element={<SignUpForm />} />
+
+        <Route
+          path="cart"
+          element={
+            <RequireAuth>
+              <Cart />
+            </RequireAuth>
+          }
+        />
+
+        <Route path="contact" element={<Contact />} />
+
+        <Route
+          path="orders"
+          element={
+            <RequireAuth>
+              <Orders />
+            </RequireAuth>
+          }
+        />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
+      <ErrorBoundary>
         <Footer />
       </ErrorBoundary>
     </div>

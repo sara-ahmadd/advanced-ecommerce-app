@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
+import { signUpFunction } from "../../firebase/functions/signUp";
+import { auth } from "../../firebase/firebase";
 
 const SignUpForm = () => {
   const [form, setForm] = useState({
@@ -24,10 +26,18 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-    // const { email, password } = form;
+    const { email, password } = form;
     e.preventDefault();
     dispatch(userActions.register(form));
     console.log(user);
+    setForm({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+    signUpFunction(email, password);
   };
   const { firstName, lastName, email, password, confirmPassword } = form;
   return (
@@ -110,9 +120,11 @@ const SignUpForm = () => {
           id="exampleInputConfirmPassword1"
         />
       </div>
-      <button type="submit" className="btn btn-primary">
-        Sign Up
-      </button>
+      <input
+        type="submit"
+        className="btn btn-primary submit-btn"
+        value={" Sign Up"}
+      />
     </form>
   );
 };

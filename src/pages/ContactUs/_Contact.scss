@@ -14,11 +14,6 @@ Contact Us Styles*/
   form {
     padding: 10px 20px;
     width: 50%;
-    .submit-btn {
-      @include border-radius-10px;
-      background-color: $text-color;
-      color: $white-color;
-    }
     @include myMediaQueries(small) {
       width: 100%;
     }
