@@ -3,13 +3,14 @@ import { Navigate, useLocation } from "react-router-dom";
 
 function RequireAuth({ children }) {
   const location = useLocation();
-  const { user } = useSelector((state) => {
+  const { authorized } = useSelector((state) => {
     return {
-      user: state.userReducer.user,
+      authorized: state.userReducer.authorized,
     };
   });
-  console.log(user);
-  if (user.firstName) {
+ 
+
+  if (authorized) {
     return children;
   } else {
     return <Navigate to="/login" state={{ path: location.pathname }} />;

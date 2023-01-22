@@ -6,8 +6,10 @@
 @use "../pages/Home/Home";
 @use "../pages/OrdersHistory/Orders";
 @use "../pages/ContactUs/Contact";
+@use "../pages/Login/form";
 @use "../components/Header/Header";
 @use "../components/Footer/Footer";
+@use "./../components/GeneralComponents/Loader";
 @use "../components/GeneralComponents/GeneralComponents";
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;500;600;700&display=swap");
 body {
@@ -32,4 +34,8 @@ a {
   @include border-radius-10px;
   background-color: $text-color !important;
   color: $white-color !important;
+}
+#loader {
+  position: relative;
+  z-index: 111;
 }

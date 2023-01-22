@@ -36,6 +36,8 @@ Contact Us Styles*/
       font-weight: bold;
     }
     ul.media-list {
+      padding-left: 0;
+      width: 100%;
       li {
         .media-listitem-container {
           display: flex;

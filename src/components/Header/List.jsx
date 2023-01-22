@@ -1,9 +1,10 @@
 import React from "react";
 import { BsFillPersonFill } from "react-icons/bs";
 import { GiShoppingCart } from "react-icons/gi";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
+import { toast } from "react-toastify";
 
 function List({ hideSideBar, show }) {
   const { user, authorized } = useSelector((state) => {
@@ -17,6 +18,7 @@ function List({ hideSideBar, show }) {
       hideSideBar();
     }
   };
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
     <ul className="items-list">
@@ -52,6 +54,8 @@ function List({ hideSideBar, show }) {
               onClick={() => {
                 sideBareDisappear();
                 dispatch(userActions.logOut());
+                toast.success("You Logged out.");
+                navigate("/login");
               }}
               className="logOut-btn"
             >

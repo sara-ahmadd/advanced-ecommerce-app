@@ -17,6 +17,7 @@ export let UserSlice = createSlice({
     },
     logOut: (state) => {
       state.user = {};
+      state.authorized = false;
     },
   },
 });

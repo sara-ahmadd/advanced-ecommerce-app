@@ -1,7 +1,7 @@
 @use "../../sass/global/mixins" as *;
 @use "../../sass/global/variables" as *;
 /*
-Footer Links Styles*/
+Footer Links Styles: The First Three Links*/
 .social {
   display: flex;
   gap: 10px;
@@ -11,8 +11,8 @@ Footer Links Styles*/
   }
   svg {
     font-size: 40px;
+    @include transition-(0.3s);
     a {
-      @include transition-(0.3s);
       color: $black-color !important;
       &:hover {
         color: $text-color;

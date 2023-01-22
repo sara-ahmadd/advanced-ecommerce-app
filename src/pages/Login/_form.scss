@@ -1,0 +1,20 @@
+@use "../../sass/global/mixins" as *;
+@use "../../sass/global/variables" as *;
+
+form {
+  width: 50%;
+  @include myMediaQueries(small) {
+    width: 90% !important;
+  }
+  @include myMediaQueries(mobile) {
+    width: 90% !important;
+  }
+  p#failure {
+    color: red;
+    display: none;
+  }
+  p#success {
+    color: green;
+    display: none;
+  }
+}

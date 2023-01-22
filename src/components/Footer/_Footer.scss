@@ -40,12 +40,15 @@ Footer Styles*/
         padding-left: 10px;
         padding-top: 2rem;
       }
+      /*
+The Last Three Footer Links Styles*/
       .links {
         display: flex;
         flex-wrap: wrap;
         li {
           a {
             i {
+              font-size: 40px;
               padding: 0 0.5rem;
               @include transition-(0.2s);
               &:hover {

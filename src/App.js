@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useState } from "react";
 import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import * as Pages from "./pages/index";
@@ -6,19 +6,25 @@ import * as Components from "./components/index";
 import User from "./pages/User/User";
 import SignUpForm from "./pages/Login/SignUpForm";
 import RequireAuth from "./components/GeneralComponents/RequireAuth";
+import ResetPassword from "./pages/Login/ResetPassword";
+import Loader from "./components/GeneralComponents/Loader";
+
+import { ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const { Home, Admin, Cart, Contact, Orders, LoginForm } = Pages;
 const { Header, Footer, ErrorBoundary, NotFound } = Components;
 
 function App() {
+  const [show, setShow] = useState(true);
   return (
     <div className="App">
+      <ToastContainer />
       <ErrorBoundary>
         <Header />
       </ErrorBoundary>
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route
           path="admin"
           element={
@@ -38,6 +44,7 @@ function App() {
         />
 
         <Route path="login" element={<LoginForm />} />
+        <Route path="reset" element={<ResetPassword />} />
 
         <Route path="signUp" element={<SignUpForm />} />
 

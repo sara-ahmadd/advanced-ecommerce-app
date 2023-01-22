@@ -127,15 +127,6 @@ Contact Us Styles*/
   padding: 10px 20px;
   width: 50%;
 }
-#contact form .submit-btn {
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  background-color: rgba(7, 133, 99, 0.933);
-  color: #fff;
-}
 @media (min-width: 768px) and (max-width: 991px) {
   #contact form {
     width: 100%;
@@ -165,6 +156,10 @@ Contact Us Styles*/
   -o-border-radius: 10px;
   font-weight: bold;
 }
+#contact .contact-text .card ul.media-list {
+  padding-left: 0;
+  width: 100%;
+}
 #contact .contact-text .card ul.media-list li .media-listitem-container {
   display: flex;
   justify-content: flex-start;
@@ -181,6 +176,25 @@ Contact Us Styles*/
   #contact .contact-text .card {
     width: 100%;
   }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  form {
+    width: 100% !important;
+  }
+}
+@media (max-width: 767px) {
+  form {
+    width: 100% !important;
+  }
+}
+form p#failure {
+  color: red;
+  display: none;
+}
+form p#success {
+  color: green;
+  display: none;
 }
 
 /*
@@ -359,8 +373,9 @@ Side bar styles*/
 }
 .side-bar .items-list .admin-btn,
 .side-bar .items-list .logOut-btn {
-  min-width: 70px;
+  width: 90px;
   height: 40px;
+  text-align: center;
   padding: 6px;
   border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -561,7 +576,7 @@ Side bar styles*/
 /*
 Header Styles*/
 /*
-Footer Links Styles*/
+Footer Links Styles: The First Three Links*/
 .social {
   display: flex;
   gap: 10px;
@@ -574,13 +589,13 @@ Footer Links Styles*/
 }
 .social svg {
   font-size: 40px;
-}
-.social svg a {
   transition: 0.3s linear;
   -webkit-transition: 0.3s linear;
   -moz-transition: 0.3s linear;
   -ms-transition: 0.3s linear;
   -o-transition: 0.3s linear;
+}
+.social svg a {
   color: #000 !important;
 }
 .social svg a:hover {
@@ -627,6 +642,8 @@ Footer Styles*/
 }
 .footer .container div {
   text-align: left;
+  /*
+  The Last Three Footer Links Styles*/
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .footer .container div {
@@ -654,6 +671,7 @@ Footer Styles*/
   justify-content: center;
 }
 .footer .container div .links li a i {
+  font-size: 40px;
   padding: 0 0.5rem;
   transition: 0.2s linear;
   -webkit-transition: 0.2s linear;
@@ -680,6 +698,43 @@ Footer Styles*/
 .footer .rights {
   font-weight: bold;
   color: rgba(7, 133, 99, 0.933);
+}
+
+#loader-container {
+  background-color: rgba(228, 217, 217, 0.7);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+#loader-container button {
+  position: absolute;
+  top: 10px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  padding: 20px;
+}
+#loader-container .loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: fit-content;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+#loader-container .loader img {
+  width: 200px;
+  height: 200px;
 }
 
 body {
@@ -710,6 +765,11 @@ a.active, a:hover {
   -o-border-radius: 10px;
   background-color: rgba(7, 133, 99, 0.933) !important;
   color: #fff !important;
+}
+
+#loader {
+  position: relative;
+  z-index: 111;
 }
 
 /*# sourceMappingURL=index.css.map */
