@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 import { Link, useNavigate } from "react-router-dom";
 import "./_form.scss";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
-import { loaderActions } from "../../reduxToolkit/LoadingSlice/LoadingSlice";
 import Loader from "../../components/GeneralComponents/Loader";
 
 const SignUpForm = () => {
@@ -46,6 +45,7 @@ const SignUpForm = () => {
         .then((userCredintial) => {
           toast.success("You Signed Up Successfully!");
           setLoader(false);
+
           dispatch(userActions.register(form));
 
           // dispatch(loaderActions.isNotLoading());
@@ -53,6 +53,7 @@ const SignUpForm = () => {
           navigate("/login");
         })
         .catch((err) => {
+          // dispatch(loaderActions.isNotLoading());
           toast.error(`${err.message}`);
           console.log(err.message);
         });
@@ -62,7 +63,6 @@ const SignUpForm = () => {
   return (
     <>
       {loader && <Loader />}
-
       <section>
         <form
           className="my-3 mx-auto shadow p-5 bg-body-tertiary rounded"

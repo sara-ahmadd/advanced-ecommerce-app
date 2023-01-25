@@ -13,16 +13,18 @@
     flex-direction: row;
     @include border-radius-10px;
     .items-list {
+      padding: 10px;
+      @include flex-center;
+      justify-content: center;
+      gap: 15px;
+      width: 60%;
       @include myMediaQueries(small) {
         display: none;
       }
       @include myMediaQueries(mobile) {
         display: none;
       }
-      padding: 10px;
-      @include flex-center;
-      gap: 15px;
-      width: 60%;
+
       @include myMediaQueries(x-large) {
         width: 30%;
         gap: 10px;

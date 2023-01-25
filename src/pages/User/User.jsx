@@ -12,7 +12,7 @@ function User() {
       <h2>
         Name : {user.firstName} {user.lastName}
       </h2>
-      <h2>Email : {user.email || user.loginEmail}</h2>
+      <h2>Email : {user.email}</h2>
     </div>
   );
 }

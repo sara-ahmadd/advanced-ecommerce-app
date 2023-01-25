@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
 import { GiShoppingCart } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 import { toast } from "react-toastify";
+import { auth } from "../../firebase/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 function List({ hideSideBar, show }) {
   const { user, authorized } = useSelector((state) => {
@@ -13,13 +15,38 @@ function List({ hideSideBar, show }) {
       authorized: state.userReducer.authorized,
     };
   });
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        let userName = user.email.slice(0, user.email.indexOf("@"));
+        console.log(user);
+        dispatch(
+          userActions.login({
+            firstName: user.displayName
+              ? user.displayName.split(" ")[0]
+              : userName.split(" ")[0],
+            lastName: user.displayName
+              ? user.displayName.split(" ")[1]
+              : userName.split(" ")[1],
+            email: user.email,
+            userId: user.uid,
+          })
+        );
+      } else {
+        dispatch(userActions.logOut());
+      }
+    });
+  }, [dispatch]);
+
   const sideBareDisappear = () => {
     if (show) {
       hideSideBar();
     }
   };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   return (
     <ul className="items-list">
       <li>
@@ -33,7 +60,7 @@ function List({ hideSideBar, show }) {
           Admin
         </NavLink>
       </li>
-      {user !== {} && authorized && user.firstName ? (
+      {user && authorized && user.firstName ? (
         <>
           <li className="list-item">
             <NavLink
@@ -62,6 +89,33 @@ function List({ hideSideBar, show }) {
               Log Out
             </button>
           </li>
+          <li className="list-item">
+            <NavLink
+              to="/orders"
+              onClick={() => {
+                sideBareDisappear();
+              }}
+            >
+              My Orders
+            </NavLink>
+          </li>
+          <li className="list-item">
+            <NavLink
+              to="/cart"
+              onClick={() => {
+                sideBareDisappear();
+              }}
+              className="cart-container"
+            >
+              <h2>Cart</h2>
+              <div className="cart-icon">
+                <i>
+                  <GiShoppingCart />
+                </i>
+                <span className="count">0</span>
+              </div>
+            </NavLink>
+          </li>
         </>
       ) : (
         <>
@@ -88,39 +142,12 @@ function List({ hideSideBar, show }) {
 
       <li className="list-item">
         <NavLink
-          to="/orders"
-          onClick={() => {
-            sideBareDisappear();
-          }}
-        >
-          My Orders
-        </NavLink>
-      </li>
-      <li className="list-item">
-        <NavLink
           to="/contact"
           onClick={() => {
             sideBareDisappear();
           }}
         >
           Contact Us
-        </NavLink>
-      </li>
-      <li className="list-item">
-        <NavLink
-          to="/cart"
-          onClick={() => {
-            sideBareDisappear();
-          }}
-          className="cart-container"
-        >
-          <h2>Cart</h2>
-          <div className="cart-icon">
-            <i>
-              <GiShoppingCart />
-            </i>
-            <span className="count">0</span>
-          </div>
         </NavLink>
       </li>
     </ul>

@@ -4,6 +4,7 @@
 @use "../pages/Admin/Admin";
 @use "../pages/Cart/Cart";
 @use "../pages/Home/Home";
+@use "../pages/Home/Slider";
 @use "../pages/OrdersHistory/Orders";
 @use "../pages/ContactUs/Contact";
 @use "../pages/Login/form";
@@ -13,14 +14,13 @@
 @use "../components/GeneralComponents/GeneralComponents";
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;500;600;700&display=swap");
 body {
-  text-align: left;
   background-color: #eee;
   font-family: "Raleway", sans-serif !important;
 }
 .custom-container {
   width: 90vw;
-  margin: 20px auto;
-  height: 70vh;
+  margin: 0 auto;
+  height: fit-content;
 }
 a {
   color: $black-color !important;

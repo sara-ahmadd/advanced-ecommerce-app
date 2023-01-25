@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 import { auth } from "../../firebase/firebase";
 
@@ -12,29 +12,18 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { loaderActions } from "../../reduxToolkit/LoadingSlice/LoadingSlice";
 import Loader from "../../components/GeneralComponents/Loader";
+
+const provider = new GoogleAuthProvider();
 
 function LoginForm() {
   const [loginForm, setLoginForm] = useState({
-    firstName: "",
-    lastName: "",
+    userName: "",
     loginEmail: "",
     loginPassword: "",
   });
 
   const [loader, setLoader] = useState(false);
-
-  // const { loading } = useSelector((state) => {
-  //   return {
-  //     loading: state.loaderReducer.loading,
-  //   };
-  // });
-  // const { user } = useSelector((state) => {
-  //   return {
-  //     user: state.userReducer.user,
-  //   };
-  // });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -50,14 +39,20 @@ function LoginForm() {
     let { loginEmail, loginPassword } = loginForm;
     e.preventDefault();
 
-    // dispatch(loaderActions.isLoading);
     setLoader(true);
 
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
       .then((userCredintial) => {
         setLoader(false);
-        dispatch(loaderActions.isNotLoading);
-        dispatch(userActions.login(loginForm, true));
+        console.log(userCredintial.user);
+        dispatch(
+          userActions.login({
+            firstName: userName.split(" ")[0],
+            lastName: userName.split(" ")[1],
+            email: userCredintial.user.email,
+            userId: userCredintial.user.uid,
+          })
+        );
         toast.success("You logged in successfully.");
         navigate("/");
       })
@@ -66,14 +61,7 @@ function LoginForm() {
         toast.error(err.message);
       });
   };
-  //   const subscribe = () => {
-  //     const unsub = onAuthStateChanged(auth, (user) => {
-  //       console.log(`user state is changed : `, user);
-  //     });
-  //     return unsub();
-  //   };
-  //
-  const provider = new GoogleAuthProvider();
+
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -83,6 +71,7 @@ function LoginForm() {
             firstName: user.displayName.split(" ")[0],
             lastName: user.displayName.split(" ")[1],
             email: user.email,
+            userId: user.uid,
           })
         );
         toast.success("You logged in successfully.");
@@ -92,7 +81,7 @@ function LoginForm() {
         toast.error(error.message);
       });
   };
-  const { loginEmail, loginPassword, firstName, lastName } = loginForm;
+  const { loginEmail, loginPassword, userName } = loginForm;
 
   return (
     <>
@@ -102,7 +91,7 @@ function LoginForm() {
           className="my-3 mx-auto shadow p-5 bg-body-tertiary rounded"
           onSubmit={(e) => {
             e.preventDefault();
-            if (loginEmail && loginPassword && firstName) {
+            if (loginEmail && loginPassword && userName) {
               handleLoginSubmit(e);
             }
           }}
@@ -114,24 +103,12 @@ function LoginForm() {
                 User Name
               </label>
               <input
-                value={firstName}
-                name="firstName"
+                value={userName}
+                name="userName"
                 onChange={(e) => handleInputValue(e)}
                 type="text"
                 className="form-control"
                 id="exampleInputUserName`"
-                aria-describedby="user-name"
-              />
-              <label htmlFor="exampleInputUserName`" className="form-label">
-                User Last Name
-              </label>
-              <input
-                value={lastName}
-                name="lastName"
-                onChange={(e) => handleInputValue(e)}
-                type="text"
-                className="form-control"
-                id="exampleInputUserlastName`"
                 aria-describedby="user-name"
               />
               <label htmlFor="exampleInputEmail1`" className="form-label">
