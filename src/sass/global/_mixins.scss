@@ -122,3 +122,10 @@
   -ms-transform: translateY(-20px);
   -o-transform: translateY(-20px);
 }
+@mixin translateX-($num) {
+  transform: translateX($num);
+  -webkit-transform: translateX($num);
+  -moz-transform: translateX($num);
+  -ms-transform: translateX($num);
+  -o-transform: translateX($num);
+}

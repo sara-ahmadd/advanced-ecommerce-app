@@ -1,8 +1,8 @@
 import "./_Slider.scss";
 
-const SingleSlide = ({ image }) => {
+const SingleSlide = ({ image, currentClass }) => {
   return (
-    <div className="img">
+    <div className={currentClass}>
       <img src={image.link} alt={image.title} />
     </div>
   );

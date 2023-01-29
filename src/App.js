@@ -9,8 +9,11 @@ import RequireAuth from "./components/GeneralComponents/RequireAuth";
 import ResetPassword from "./pages/Login/ResetPassword";
 import Loader from "./components/GeneralComponents/Loader";
 
-import { ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProductsList from "./pages/Home/ProductsList";
+import ProductPage from "./pages/Home/ProductPage";
+import ProductPageII from "./pages/Admin/ProductPage";
 
 const { Home, Admin, Cart, Contact, Orders, LoginForm } = Pages;
 const { Header, Footer, ErrorBoundary, NotFound } = Components;
@@ -25,6 +28,8 @@ function App() {
       </ErrorBoundary>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="products" element={<ProductsList />} />
+        <Route path="products/:id" element={<ProductPage />} />
         <Route
           path="admin"
           element={
@@ -33,6 +38,7 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route path="admin/products/:id" element={<ProductPageII />} />
 
         <Route
           path="user"

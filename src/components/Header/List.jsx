@@ -15,6 +15,7 @@ function List({ hideSideBar, show }) {
       authorized: state.userReducer.authorized,
     };
   });
+  const cart = useSelector((state) => state.cart.products);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -23,7 +24,6 @@ function List({ hideSideBar, show }) {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         let userName = user.email.slice(0, user.email.indexOf("@"));
-        console.log(user);
         dispatch(
           userActions.login({
             firstName: user.displayName
@@ -49,6 +49,27 @@ function List({ hideSideBar, show }) {
   };
   return (
     <ul className="items-list">
+      <li>
+        <NavLink
+          to="/"
+          onClick={() => {
+            sideBareDisappear();
+          }}
+          className="list-item"
+        >
+          Home
+        </NavLink>
+      </li>
+      <li className="list-item">
+        <NavLink
+          to="/contact"
+          onClick={() => {
+            sideBareDisappear();
+          }}
+        >
+          Contact
+        </NavLink>
+      </li>
       <li>
         <NavLink
           to="/admin"
@@ -112,7 +133,7 @@ function List({ hideSideBar, show }) {
                 <i>
                   <GiShoppingCart />
                 </i>
-                <span className="count">0</span>
+                <span className="count">{cart ? cart.length : 0}</span>
               </div>
             </NavLink>
           </li>
@@ -139,17 +160,6 @@ function List({ hideSideBar, show }) {
           </li>
         </>
       )}
-
-      <li className="list-item">
-        <NavLink
-          to="/contact"
-          onClick={() => {
-            sideBareDisappear();
-          }}
-        >
-          Contact Us
-        </NavLink>
-      </li>
     </ul>
   );
 }

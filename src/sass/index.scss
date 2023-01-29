@@ -20,12 +20,17 @@ body {
 .custom-container {
   width: 90vw;
   margin: 0 auto;
-  height: fit-content;
+  min-height: 50vh;
 }
 a {
   color: $black-color !important;
   text-decoration: none !important;
   &.active,
+  &.submit-btn {
+    &:hover {
+      color: $white-color !important;
+    }
+  }
   &:hover {
     color: $text-color !important;
   }
@@ -35,6 +40,7 @@ a {
   background-color: $text-color !important;
   color: $white-color !important;
 }
+
 #loader {
   position: relative;
   z-index: 111;

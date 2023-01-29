@@ -29,7 +29,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(50, 237, 193);
+  background-color: rgb(120, 245, 216);
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -104,21 +104,173 @@ Cart Styles*/
 /*
 Home Styles*/
 .slider-container {
-  width: 800px;
-  height: 700px;
   margin: 0 auto;
+  width: 80vw;
+  height: 600px;
   position: relative;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .slider-container {
+    width: 80vw;
+    height: 50vh;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .slider-container {
+    width: 80vw;
+    height: 50vh;
+  }
+}
+@media (max-width: 767px) {
+  .slider-container {
+    width: 80vw;
+    height: 50vh;
+  }
 }
 .slider-container .slider-items {
   position: absolute;
-  z-index: 222;
   top: 0;
   left: 0;
   display: flex;
-  height: 100%;
-  width: 100%;
+  width: 80vw;
+  height: 600px;
   align-items: center;
   overflow: hidden;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .slider-container .slider-items {
+    width: 80vw;
+    height: 50vh;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .slider-container .slider-items {
+    width: 80vw;
+    height: 50vh;
+  }
+}
+@media (max-width: 767px) {
+  .slider-container .slider-items {
+    width: 80vw;
+    height: 50vh;
+  }
+}
+.slider-container .slider-items .slider {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  width: 80vw;
+  height: 600px;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .slider-container .slider-items .slider {
+    width: 80vw;
+    height: 50vh;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .slider-container .slider-items .slider {
+    width: 80vw;
+    height: 50vh;
+  }
+}
+@media (max-width: 767px) {
+  .slider-container .slider-items .slider {
+    width: 80vw;
+    height: 50vh;
+  }
+}
+.slider-container .slider-items .slider .img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  opacity: 0;
+  transition: 0.3s linear;
+  -webkit-transition: 0.3s linear;
+  -moz-transition: 0.3s linear;
+  -ms-transition: 0.3s linear;
+  -o-transition: 0.3s linear;
+}
+.slider-container .slider-items .slider .img.current {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+}
+.slider-container .slider-items .slider .img img {
+  object-fit: cover;
+  object-position: center;
+  height: 100%;
+  width: 100%;
+}
+.slider-container .arrows {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  width: 120%;
+  height: 10%;
+  left: -10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.slider-container .arrows button {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.slider-container .arrows i {
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  color: #fff;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .slider-container .arrows i {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .slider-container .arrows i {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+}
+@media (max-width: 767px) {
+  .slider-container .arrows i {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+}
+.slider-container .arrows i svg {
+  padding: 10px;
+  background-color: rgba(63, 152, 148, 0.7);
+  width: 100%;
+  height: 100%;
 }
 
 /*Orders Page Styles*/
@@ -484,6 +636,7 @@ Side bar styles*/
 }
 #header nav .items-list li {
   height: 100%;
+  font-size: 15px;
 }
 #header nav .items-list li.list-item > a, #header nav .items-list li > .cart-container h2 a {
   cursor: pointer;
@@ -767,14 +920,17 @@ body {
 .custom-container {
   width: 90vw;
   margin: 0 auto;
-  height: fit-content;
+  min-height: 50vh;
 }
 
 a {
   color: #000 !important;
   text-decoration: none !important;
 }
-a.active, a:hover {
+a.active:hover, a.submit-btn:hover {
+  color: #fff !important;
+}
+a:hover {
   color: rgba(7, 133, 99, 0.933) !important;
 }
 

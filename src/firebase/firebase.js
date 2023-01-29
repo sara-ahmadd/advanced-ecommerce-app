@@ -20,11 +20,7 @@ export const dataBase = getFirestore();
 
 export const collectionRef = collection(dataBase, "products");
 
-// export const getProducts = () => {
-//   getDocs(collectionRef).then((snapshot) =>
-//     console.log(snapshot.docs.map((x) => x.data()))
-//   );
-// };
+
 export const auth = getAuth(app);
 
 export const storage = getStorage(app);

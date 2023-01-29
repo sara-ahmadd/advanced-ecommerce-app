@@ -1,27 +1,147 @@
-@use "./../../sass/global/global-rules";
-@use "./../../sass/global/mixins";
-@use "./../../sass/global/variables";
+@use "./../../sass/global/global-rules" as *;
+@use "./../../sass/global/mixins" as *;
+@use "./../../sass/global/variables" as *;
 
 .slider-container {
-  width: 800px;
-  height: 700px;
   margin: 0 auto;
+  width: 65vw;
+  height: 600px;
   position: relative;
+  @include myMediaQueries(medium) {
+    width: 80vw;
+    height: 50vh;
+  }
+  @include myMediaQueries(small) {
+    width: 80vw;
+    height: 50vh;
+  }
+  @include myMediaQueries(mobile) {
+    width: 80vw;
+    height: 50vh;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    background-color: $dim-white-color;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
   .slider-items {
     position: absolute;
     top: 0;
     left: 0;
     display: flex;
-    width: 900px;
-    height: 700px;
+    width: 65vw;
+    height: 600px;
     align-items: center;
     overflow: hidden;
-    .img {
-      height: 100%;
-      width: 100%;
-      img {
+    @include myMediaQueries(medium) {
+      width: 80vw;
+      height: 50vh;
+    }
+    @include myMediaQueries(small) {
+      width: 80vw;
+      height: 50vh;
+    }
+    @include myMediaQueries(mobile) {
+      width: 80vw;
+      height: 50vh;
+    }
+    .slider {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      width: 65vw;
+      height: 600px;
+      @include myMediaQueries(medium) {
+        width: 80vw;
+        height: 50vh;
+      }
+      @include myMediaQueries(small) {
+        width: 80vw;
+        height: 50vh;
+      }
+      @include myMediaQueries(mobile) {
+        width: 80vw;
+        height: 50vh;
+      }
+      .img {
+        position: absolute;
+        top: 0;
+        left: 0;
         height: 100%;
         width: 100%;
+        @include translateX-(-50%);
+        opacity: 0;
+        &.current {
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          opacity: 1;
+          @include translateX-(0);
+        }
+        @include transition-(0.3s);
+        img {
+          object-fit: fill;
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+  }
+  .arrows {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    width: 120%;
+    height: 10%;
+    left: -10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      border: none;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    i {
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      color: $white-color;
+      @include myMediaQueries(medium) {
+        width: 30px;
+
+        height: 30px;
+        font-size: 20px;
+      }
+      @include myMediaQueries(small) {
+        width: 30px;
+
+        height: 30px;
+        font-size: 20px;
+      }
+      @include myMediaQueries(mobile) {
+        width: 30px;
+
+        height: 30px;
+        font-size: 20px;
+      }
+      svg {
+        padding: 10px;
+        background-color: $main-color;
+        width: 100%;
+        height: 100%;
       }
     }
   }
