@@ -49,13 +49,12 @@ function List({ hideSideBar, show }) {
   };
   return (
     <ul className="items-list">
-      <li>
+      <li className="list-item">
         <NavLink
           to="/"
           onClick={() => {
             sideBareDisappear();
           }}
-          className="list-item"
         >
           Home
         </NavLink>

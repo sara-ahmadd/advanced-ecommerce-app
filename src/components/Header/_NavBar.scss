@@ -4,6 +4,12 @@
 #header {
   position: relative;
   background-color: $background-color;
+  @include myMediaQueries(small) {
+    width: 100vw !important;
+  }
+  @include myMediaQueries(mobile) {
+    width: 100vw !important;
+  }
   nav {
     width: 100%;
     display: flex;

@@ -1,35 +1,50 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+// import { getDocs, query, where } from "firebase/firestore";
+// import { useState } from "react";
+// import { collectionRef } from "../../firebase/firebase";
 
-function Categories({ getCategory, getAll }) {
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    axios.get("https://fakestoreapi.com/products/categories").then((res) => {
-      setCategories(res.data);
-    });
-  }, []);
+function Categories({ categories, getIntoCategory, getAll }) {
+  // const [prices, setPrices] = useState([]);
+
+  // const getAccordingToPrice = (price) => {
+  //   let getCategory = query(collectionRef, where("price", ">", `${price}`));
+  //   getDocs(getCategory).then((res) => {
+  //     console.log(res);
+  //   });
+  // };
 
   return (
     <div className="d-flex gap-3 nav justify-content-center">
       <button
-        onClick={getAll}
         className="btn nav-link fs-4 nav-item text-success"
+        onClick={() => getAll()}
       >
         All
       </button>
       <ul className="nav">
         {categories &&
-          categories.map((c) => {
+          categories.map((c, index) => {
             return (
-              <li
-                key={c}
+              <button
+                key={index}
                 className="category-item btn  nav-link fs-4  nav-item text-success"
-                onClick={(e) => getCategory(c)}
+                onClick={() => getIntoCategory(c)}
               >
                 {c}
-              </li>
+              </button>
             );
           })}
+        {/* {prices &&
+          prices.map((price, index) => {
+            return (
+              <button
+                key={index}
+                className="category-item btn  nav-link fs-4  nav-item text-success"
+                onClick={() => getAccordingToPrice(price)}
+              >
+                Price : {price}
+              </button>
+            );
+          })} */}
       </ul>
     </div>
   );

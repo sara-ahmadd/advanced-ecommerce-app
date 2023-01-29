@@ -1,37 +1,54 @@
-import React from "react";
 import { useEffect } from "react";
-import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../components/GeneralComponents/Loader";
+import { deleteDoc, doc, getDocs, onSnapshot } from "firebase/firestore";
+import { collectionRef, dataBase } from "../../firebase/firebase";
+import Swal from "sweetalert2";
 const ProductsList = () => {
-  let productsURL = "https://fakestoreapi.com/products";
   const [products, setProducts] = useState({
     loading: true,
     ProductList: [],
     error: "",
     category: "",
   });
+  const deleteSingleProduct = async (id) => {
+    const docRef = doc(dataBase, "products", id);
+    await deleteDoc(docRef);
+  };
+  const deleteProduct = (product) => {
+    Swal.fire({
+      title: `You Will Delete This Product : [ ${product.title} ], Are You Sure?`,
+      showCancelButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        return deleteSingleProduct(product.id);
+      }
+    });
+  };
 
   const getAllProducts = () => {
-    axios
-      .get(productsURL)
-      .then((res) => {
-        setProducts({
-          loading: false,
-          ProductList: res.data,
-          error: "",
-          category: "",
-        });
-      })
-      .catch((err) =>
-        setProducts({
-          loading: false,
-          ProductList: [],
-          error: err.message,
-          category: "",
-        })
-      );
+    onSnapshot(collectionRef, (res) => {
+      let data = res.docs.map((x) => {
+        let { image, price, description, title, productId, category } =
+          x.data();
+        return {
+          id: x.id,
+          image,
+          price,
+          description,
+          title,
+          productId,
+          category,
+        };
+      });
+      setProducts({
+        loading: false,
+        ProductList: data,
+        error: "",
+        category: "",
+      });
+    });
   };
   useEffect(() => {
     getAllProducts();
@@ -61,15 +78,12 @@ const ProductsList = () => {
           {products.ProductList ? (
             products.ProductList.map((p) => (
               <tr key={p.id}>
-                <td>{p.id}</td>
+                <td>{p.productId}</td>
                 <td>{p.title}</td>
                 <td>{p.category}</td>
                 <td>{p.price}$</td>
                 <td className="d-flex gap-3 pb-4">
-                  <Link
-                    to={`/admin/products/${p.id}`}
-                    className="btn submit-btn"
-                  >
+                  <Link to={`/admin/edit/${p.id}`} className="btn submit-btn">
                     Edit
                   </Link>
                   <Link
@@ -80,7 +94,7 @@ const ProductsList = () => {
                   </Link>
                   <button
                     onClick={() => {
-                      // deleteProduct(p);
+                      deleteProduct(p);
                     }}
                     className="btn btn-danger"
                   >

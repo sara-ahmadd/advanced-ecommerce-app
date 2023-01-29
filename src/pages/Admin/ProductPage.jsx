@@ -1,6 +1,8 @@
 import axios from "axios";
+import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { collectionRef, dataBase } from "../../firebase/firebase";
 // import "../../css/single-product.css";
 
 // import { cartActions } from "../../reduxToolkit/cart/cart";
@@ -16,26 +18,25 @@ function ProductPage() {
     image: "",
     category: "",
   });
+  let docRef = doc(dataBase, "products", params.id);
   useEffect(() => {
-    console.log(params);
-    axios
-      .get(`https://fakestoreapi.com/products/${params.id}`)
+    getDoc(docRef)
       .then((res) => {
-        const newProduct = res.data;
-        // console.log(newProduct);
+        const product = res.data();
+        console.log(product);
         setProduct({
-          id: newProduct.id,
-          title: newProduct.title,
-          description: newProduct.description,
-          image: newProduct.image,
-          price: newProduct.price,
-          category: newProduct.category,
+          id: product.productId,
+          title: product.title,
+          description: product.description,
+          image: product.image,
+          price: product.price,
+          category: product.category,
         });
       })
       .catch((err) => console.log(err));
   }, [params]);
   return (
-    <div className="card col-10 col-sm-2 col-md-4  mx-auto my-2 p-1">
+    <div className="card col-10 col-md-6 col-sm-4 mx-auto my-2 p-1">
       <img
         src={product.image}
         className="card-img-top mx-auto"

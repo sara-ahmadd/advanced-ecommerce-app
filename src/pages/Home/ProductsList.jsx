@@ -1,12 +1,12 @@
-import React from "react";
 import { useEffect } from "react";
-import axios from "axios";
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import Categories from "./Categories";
 import Loader from "../../components/GeneralComponents/Loader";
+import { getDocs, query, where } from "firebase/firestore";
+import { collectionRef } from "../../firebase/firebase";
+
 const ProductsList = () => {
-  let productsURL = "https://fakestoreapi.com/products";
   const [products, setProducts] = useState({
     loading: true,
     ProductList: [],
@@ -16,12 +16,26 @@ const ProductsList = () => {
   const [categories, setCategories] = useState([]);
 
   const getAllProducts = () => {
-    axios
-      .get(productsURL)
+    getDocs(collectionRef)
       .then((res) => {
+        let data = res.docs.map((x) => {
+          let { image, price, description, title, productId, category } =
+            x.data();
+          return {
+            id: x.id,
+            image,
+            price,
+            description,
+            title,
+            productId,
+            category,
+          };
+        });
+        let categoryArray = data.map((x) => x.category);
+        setCategories([...new Set(categoryArray)]);
         setProducts({
           loading: false,
-          ProductList: res.data,
+          ProductList: data,
           error: "",
           category: "",
         });
@@ -40,17 +54,31 @@ const ProductsList = () => {
   }, []);
 
   const getIntoCategory = (category) => {
-    axios
-      .get(`https://fakestoreapi.com/products/category/${category}`)
-      .then((res) => {
-        setCategories(res.data);
-        setProducts({
-          loading: false,
-          ProductList: res.data,
-          error: "",
-          category: "",
-        });
+    let getCategory = query(
+      collectionRef,
+      where("category", "==", `${category}`)
+    );
+    getDocs(getCategory).then((res) => {
+      let data = res.docs.map((x) => {
+        let { image, price, description, title, productId, category } =
+          x.data();
+        return {
+          id: x.id,
+          image,
+          price,
+          description,
+          title,
+          productId,
+          category,
+        };
       });
+      setProducts({
+        loading: false,
+        ProductList: data,
+        error: "",
+        category: "",
+      });
+    });
   };
 
   return (
@@ -58,7 +86,11 @@ const ProductsList = () => {
       <h1 className="fs-3 text-center text-success">
         BROWSE OUR NEW COLLECTION
       </h1>
-      <Categories getCategory={getIntoCategory} getAll={getAllProducts} />
+      <Categories
+        categories={categories}
+        getAll={getAllProducts}
+        getIntoCategory={getIntoCategory}
+      />
       <div className="container ">
         <div className="row my-4 align-items-strech">
           {products.loading && (

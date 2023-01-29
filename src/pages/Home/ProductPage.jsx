@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { cartActions } from "../../reduxToolkit/CartSlice/CartSlice";
 import { useDispatch } from "react-redux";
+import { doc, getDoc } from "firebase/firestore";
+import { dataBase } from "../../firebase/firebase";
 // import "../../css/single-product.css";
 
 // import { cartActions } from "../../reduxToolkit/cart/cart";
@@ -18,20 +20,19 @@ function ProductPage() {
     image: "",
     category: "",
   });
+  let docRef = doc(dataBase, "products", params.id);
   useEffect(() => {
-    console.log(params);
-    axios
-      .get(`https://fakestoreapi.com/products/${params.id}`)
+    getDoc(docRef)
       .then((res) => {
-        const newProduct = res.data;
-        // console.log(newProduct);
+        const product = res.data();
+        console.log(product);
         setProduct({
-          id: newProduct.id,
-          title: newProduct.title,
-          description: newProduct.description,
-          image: newProduct.image,
-          price: newProduct.price,
-          category: newProduct.category,
+          id: product.productId,
+          title: product.title,
+          description: product.description,
+          image: product.image,
+          price: product.price,
+          category: product.category,
         });
       })
       .catch((err) => console.log(err));

@@ -19,7 +19,7 @@ function Cart() {
     dispatch(cartActions.clearCart());
   };
   const totalPrice = cart.reduce((acc, product) => {
-    acc += product.price.toFixed(2) * product.quantity;
+    acc += Number(product.price).toFixed(2) * product.quantity;
     return acc;
   }, 0);
 

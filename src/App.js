@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import * as Pages from "./pages/index";
@@ -7,19 +6,19 @@ import User from "./pages/User/User";
 import SignUpForm from "./pages/Login/SignUpForm";
 import RequireAuth from "./components/GeneralComponents/RequireAuth";
 import ResetPassword from "./pages/Login/ResetPassword";
-import Loader from "./components/GeneralComponents/Loader";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProductsList from "./pages/Home/ProductsList";
+import ProductsList from "./pages/Admin/ProductsList";
 import ProductPage from "./pages/Home/ProductPage";
 import ProductPageII from "./pages/Admin/ProductPage";
+import AddNewProduct from "./pages/Admin/AddNewProduct";
+import EditProduct from "./pages/Admin/EditProduct";
 
 const { Home, Admin, Cart, Contact, Orders, LoginForm } = Pages;
 const { Header, Footer, ErrorBoundary, NotFound } = Components;
 
 function App() {
-  const [show, setShow] = useState(true);
   return (
     <div className="App">
       <ToastContainer />
@@ -39,6 +38,8 @@ function App() {
           }
         />
         <Route path="admin/products/:id" element={<ProductPageII />} />
+        <Route path="admin/addNewProduct" element={<AddNewProduct />} />
+        <Route path="admin/edit/:id" element={<EditProduct />} />
 
         <Route
           path="user"

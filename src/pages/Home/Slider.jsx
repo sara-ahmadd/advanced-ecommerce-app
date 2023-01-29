@@ -12,11 +12,11 @@ const Slider = () => {
 
   const nextSlide = () => {
     setCurrentIndex(currentIndex === 0 ? lastIndex : currentIndex - 1);
-    console.log(currentIndex);
+    
   };
   const prevSlide = () => {
     setCurrentIndex(currentIndex === lastIndex ? 0 : currentIndex + 1);
-    console.log(currentIndex);
+  
   };
 
   let timer = 2000;
