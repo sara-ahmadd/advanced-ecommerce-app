@@ -11,7 +11,7 @@ function AddNewProduct() {
     title: "",
     image: "",
     category: "",
-    price: "",
+    price: 0,
     description: "",
   });
   const navigate = useNavigate();

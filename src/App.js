@@ -9,11 +9,11 @@ import ResetPassword from "./pages/Login/ResetPassword";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProductsList from "./pages/Admin/ProductsList";
 import ProductPage from "./pages/Home/ProductPage";
 import ProductPageII from "./pages/Admin/ProductPage";
 import AddNewProduct from "./pages/Admin/AddNewProduct";
 import EditProduct from "./pages/Admin/EditProduct";
+import Products from "./pages/Home/Products";
 
 const { Home, Admin, Cart, Contact, Orders, LoginForm } = Pages;
 const { Header, Footer, ErrorBoundary, NotFound } = Components;
@@ -27,7 +27,7 @@ function App() {
       </ErrorBoundary>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="products" element={<ProductsList />} />
+        <Route path="products" element={<Products />} />
         <Route path="products/:id" element={<ProductPage />} />
         <Route
           path="admin"

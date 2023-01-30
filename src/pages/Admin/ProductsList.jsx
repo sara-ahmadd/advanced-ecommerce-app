@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../components/GeneralComponents/Loader";
-import { deleteDoc, doc, getDocs, onSnapshot } from "firebase/firestore";
+import { deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { collectionRef, dataBase } from "../../firebase/firebase";
 import Swal from "sweetalert2";
+import Search from "../../components/GeneralComponents/Search";
+import Pagentation from "../../components/GeneralComponents/Pagentation";
 const ProductsList = () => {
   const [products, setProducts] = useState({
     loading: true,
@@ -12,11 +14,16 @@ const ProductsList = () => {
     error: "",
     category: "",
   });
+  const productsPerPage = 8;
+  const [numberOfPages, setNumberOfPages] = useState(1);
+  let lastProduct = numberOfPages * productsPerPage;
+  let firstProduct = lastProduct - productsPerPage;
+
   const deleteSingleProduct = async (id) => {
     const docRef = doc(dataBase, "products", id);
     await deleteDoc(docRef);
   };
-  const deleteProduct = (product) => {
+  const deleteProductAlert = (product) => {
     Swal.fire({
       title: `You Will Delete This Product : [ ${product.title} ], Are You Sure?`,
       showCancelButton: true,
@@ -44,7 +51,7 @@ const ProductsList = () => {
       });
       setProducts({
         loading: false,
-        ProductList: data,
+        ProductList: data.slice(firstProduct, lastProduct),
         error: "",
         category: "",
       });
@@ -57,6 +64,7 @@ const ProductsList = () => {
   return (
     <div>
       <h1 className="text-success">Products</h1>
+      <Search products={products} setProducts={setProducts} />
       <table className="table table-hover">
         <thead>
           <tr>
@@ -94,7 +102,7 @@ const ProductsList = () => {
                   </Link>
                   <button
                     onClick={() => {
-                      deleteProduct(p);
+                      deleteProductAlert(p);
                     }}
                     className="btn btn-danger"
                   >
@@ -113,6 +121,12 @@ const ProductsList = () => {
           )}
         </tbody>
       </table>
+      <Pagentation
+        products={products.ProductList}
+        numberOfPages={numberOfPages}
+        setNumberOfPages={setNumberOfPages}
+        productsPerPage={productsPerPage}
+      />
     </div>
   );
 };

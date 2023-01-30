@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import ProductCard from "./ProductCard";
 import Categories from "./Categories";
-import Loader from "../../components/GeneralComponents/Loader";
-import { getDocs, query, where } from "firebase/firestore";
+import { getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { collectionRef } from "../../firebase/firebase";
+import ProductsGrid from "./ProductsGrid";
+import Pagentation from "../../components/GeneralComponents/Pagentation";
+import Search from "../../components/GeneralComponents/Search";
 
-const ProductsList = () => {
+const Products = () => {
   const [products, setProducts] = useState({
     loading: true,
     ProductList: [],
@@ -15,9 +16,16 @@ const ProductsList = () => {
   });
   const [categories, setCategories] = useState([]);
 
+  const [numberOfPages, setNumberOfPages] = useState(1);
+
+  const productsPerPage = 8;
+  let lastProduct = numberOfPages * productsPerPage;
+  let firstProduct = lastProduct - productsPerPage;
+
+  // Get All Products Without Filters.
   const getAllProducts = () => {
-    getDocs(collectionRef)
-      .then((res) => {
+    onSnapshot(collectionRef, (res) => {
+      try {
         let data = res.docs.map((x) => {
           let { image, price, description, title, productId, category } =
             x.data();
@@ -35,30 +43,32 @@ const ProductsList = () => {
         setCategories([...new Set(categoryArray)]);
         setProducts({
           loading: false,
-          ProductList: data,
+          ProductList: data.slice(firstProduct, lastProduct),
           error: "",
           category: "",
         });
-      })
-      .catch((err) =>
+      } catch (error) {
         setProducts({
           loading: false,
           ProductList: [],
-          error: err.message,
+          error: error.message,
           category: "",
-        })
-      );
+        });
+      }
+    });
   };
+
   useEffect(() => {
     getAllProducts();
   }, []);
 
+  // Gett Products Of Specific Category.
   const getIntoCategory = (category) => {
     let getCategory = query(
       collectionRef,
       where("category", "==", `${category}`)
     );
-    getDocs(getCategory).then((res) => {
+    onSnapshot(getCategory, (res) => {
       let data = res.docs.map((x) => {
         let { image, price, description, title, productId, category } =
           x.data();
@@ -74,7 +84,7 @@ const ProductsList = () => {
       });
       setProducts({
         loading: false,
-        ProductList: data,
+        ProductList: data.slice(firstProduct, lastProduct),
         error: "",
         category: "",
       });
@@ -83,40 +93,24 @@ const ProductsList = () => {
 
   return (
     <div className="pt-5 ">
-      <h1 className="fs-3 text-center text-success">
+      <h1 className="fs-2 text-center text-success">
         BROWSE OUR NEW COLLECTION
       </h1>
+      <Search products={products} setProducts={setProducts} />
+      {/* Filtration according to category */}
       <Categories
         categories={categories}
         getAll={getAllProducts}
         getIntoCategory={getIntoCategory}
       />
-      <div className="container ">
-        <div className="row my-4 align-items-strech">
-          {products.loading && (
-            <>
-              <Loader />
-              <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </div>
-            </>
-          )}
-          {products.ProductList &&
-            products.ProductList.map((p) => (
-              <div
-                key={p.id}
-                className="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 "
-              >
-                <ProductCard product={p} />
-              </div>
-            ))}
-          {products.error && <h1>Somthing Went Wrong!..'{products.error}'</h1>}
-        </div>
-      </div>
+      <ProductsGrid products={products} />
+      <Pagentation
+        products={products.ProductList}
+        numberOfPages={numberOfPages}
+        setNumberOfPages={setNumberOfPages}
+      />
     </div>
   );
 };
 
-export default ProductsList;
+export default Products;

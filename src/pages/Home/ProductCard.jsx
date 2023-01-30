@@ -14,12 +14,13 @@ const ProductCard = ({ product }) => {
         alt="img"
       />
       <div className="card-body d-flex flex-column justify-content-between">
-        <h3 className="card-title title">{product.title}</h3>
-        <h3 className="card-title price">
-          <span className="text-success fw-bold">Price</span> :{product.price}$
+        <h3 className="card-title title fs-4">{product.title}</h3>
+        <h3 className="card-title price fs-4">
+          <span className="text-success fw-bold fs-4">Price</span> :
+          {product.price}$
         </h3>
         <h3 className="card-title category">
-          <span className="text-success fw-bold">Category</span> :
+          <span className="text-success fw-bold fs-4">Category</span> :
           {product.category}
         </h3>
         <p className="card-text description">

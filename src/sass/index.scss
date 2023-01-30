@@ -31,7 +31,7 @@ a {
       color: $white-color !important;
     }
   }
-  &:hover {
+  &.submit-btn:hover {
     color: $black-color !important;
   }
 }

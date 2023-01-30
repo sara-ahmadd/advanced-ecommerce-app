@@ -6,7 +6,7 @@ function Categories({ categories, getIntoCategory, getAll }) {
   // const [prices, setPrices] = useState([]);
 
   // const getAccordingToPrice = (price) => {
-  //   let getCategory = query(collectionRef, where("price", ">", `${price}`));
+  //   let getCategory = query(collectionRef, where("price", ">", price));
   //   getDocs(getCategory).then((res) => {
   //     console.log(res);
   //   });
