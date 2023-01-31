@@ -2,7 +2,15 @@
 // import { useState } from "react";
 // import { collectionRef } from "../../firebase/firebase";
 
-function Categories({ categories, getIntoCategory, getAll }) {
+import getProducts from "../../functions/getProducts";
+
+function Categories({
+  categories,
+  getIntoCategory,
+  setProducts,
+  setCategories,
+  collectionRef,
+}) {
   // const [prices, setPrices] = useState([]);
 
   // const getAccordingToPrice = (price) => {
@@ -16,7 +24,7 @@ function Categories({ categories, getIntoCategory, getAll }) {
     <div className="d-flex gap-3 nav justify-content-center">
       <button
         className="btn nav-link fs-4 nav-item text-success"
-        onClick={() => getAll()}
+        onClick={() => getProducts(collectionRef, setProducts, setCategories)}
       >
         All
       </button>

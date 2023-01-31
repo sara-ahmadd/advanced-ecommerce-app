@@ -6,6 +6,7 @@ import { collectionRef } from "../../firebase/firebase";
 import ProductsGrid from "./ProductsGrid";
 import Pagentation from "../../components/GeneralComponents/Pagentation";
 import Search from "../../components/GeneralComponents/Search";
+import getProducts from "../../functions/getProducts";
 
 const Products = () => {
   const [products, setProducts] = useState({
@@ -25,43 +26,8 @@ const Products = () => {
 
   const [categories, setCategories] = useState([]);
   // Get All Products Without Filters.
-  const getAllProducts = () => {
-    onSnapshot(collectionRef, (res) => {
-      try {
-        let data = res.docs.map((x) => {
-          let { image, price, description, title, productId, category } =
-            x.data();
-          return {
-            id: x.id,
-            image,
-            price,
-            description,
-            title,
-            productId,
-            category,
-          };
-        });
-        let categoryArray = data.map((x) => x.category);
-        setCategories([...new Set(categoryArray)]);
-        setProducts({
-          loading: false,
-          ProductList: data,
-          error: "",
-          category: "",
-        });
-      } catch (error) {
-        setProducts({
-          loading: false,
-          ProductList: [],
-          error: error.message,
-          category: "",
-        });
-      }
-    });
-  };
-
   useEffect(() => {
-    getAllProducts();
+    getProducts(collectionRef, setProducts, setCategories);
   }, []);
 
   // Gett Products Of Specific Category.
@@ -102,7 +68,9 @@ const Products = () => {
       {/* Filtration according to category */}
       <Categories
         categories={categories}
-        getAll={getAllProducts}
+        setCategories={setCategories}
+        setProducts={setProducts}
+        collectionRef={collectionRef}
         getIntoCategory={getIntoCategory}
       />
       <ProductsGrid products={products} currentProducts={currentProducts} />

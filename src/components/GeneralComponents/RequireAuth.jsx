@@ -8,7 +8,6 @@ function RequireAuth({ children }) {
       authorized: state.userReducer.authorized,
     };
   });
- 
 
   if (authorized) {
     return children;

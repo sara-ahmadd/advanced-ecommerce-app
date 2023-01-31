@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import Search from "../../components/GeneralComponents/Search";
 import Pagentation from "../../components/GeneralComponents/Pagentation";
 import Categories from "../../components/GeneralComponents/Categories";
+import getProducts from "../../functions/getProducts";
 const ProductsList = () => {
   const [products, setProducts] = useState({
     loading: true,
@@ -41,45 +42,6 @@ const ProductsList = () => {
   };
 
   const [categories, setCategories] = useState([]);
-  // Get All Products Without Filters.
-  const getAllProducts = () => {
-    onSnapshot(collectionRef, (res) => {
-      try {
-        let data = res.docs.map((x) => {
-          let { image, price, description, title, productId, category } =
-            x.data();
-          return {
-            id: x.id,
-            image,
-            price,
-            description,
-            title,
-            productId,
-            category,
-          };
-        });
-        let categoryArray = data.map((x) => x.category);
-        setCategories([...new Set(categoryArray)]);
-        setProducts({
-          loading: false,
-          ProductList: data,
-          error: "",
-          category: "",
-        });
-      } catch (error) {
-        setProducts({
-          loading: false,
-          ProductList: [],
-          error: error.message,
-          category: "",
-        });
-      }
-    });
-  };
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
 
   // Gett Products Of Specific Category.
   const getIntoCategory = (category) => {
@@ -110,8 +72,9 @@ const ProductsList = () => {
     });
   };
 
+  // Get All Products Without Filters.
   useEffect(() => {
-    getAllProducts();
+    getProducts(collectionRef, setProducts, setCategories);
   }, []);
 
   return (
@@ -120,7 +83,9 @@ const ProductsList = () => {
       <Search products={currentProducts} setProducts={setProducts} />
       <Categories
         categories={categories}
-        getAll={getAllProducts}
+        setCategories={setCategories}
+        setProducts={setProducts}
+        collectionRef={collectionRef}
         getIntoCategory={getIntoCategory}
       />
       <table className="table table-hover">
