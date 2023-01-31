@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Categories from "../../components/GeneralComponents/Categories";
 import { onSnapshot, query, where } from "firebase/firestore";
 import { collectionRef } from "../../firebase/firebase";
 import ProductsGrid from "./ProductsGrid";
 import Pagentation from "../../components/GeneralComponents/Pagentation";
 import Search from "../../components/GeneralComponents/Search";
-import getProducts from "../../functions/getProducts";
+
+import useGetProducts from "../../hooks/useGetProducts";
 
 const Products = () => {
   const [products, setProducts] = useState({
@@ -17,18 +17,23 @@ const Products = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [productsPerPage] = useState(8);
+  const [productsPerPage] = useState(5);
 
   let lastProduct = currentPage * productsPerPage;
   let firstProduct = lastProduct - productsPerPage;
 
-  const currentProducts = products.ProductList.slice(firstProduct, lastProduct);
-
-  const [categories, setCategories] = useState([]);
-  // Get All Products Without Filters.
+  // Get All Products.
+  const { productsArray } = useGetProducts(collectionRef);
   useEffect(() => {
-    getProducts(collectionRef, setProducts, setCategories);
+    setProducts({
+      loading: false,
+      ProductList: productsArray,
+      error: "",
+    });
+    console.log(productsArray);
   }, []);
+
+  let currentProducts = products.ProductList.slice(firstProduct, lastProduct);
 
   // Gett Products Of Specific Category.
   const getIntoCategory = (category) => {
@@ -67,11 +72,10 @@ const Products = () => {
       <Search products={currentProducts} setProducts={setProducts} />
       {/* Filtration according to category */}
       <Categories
-        categories={categories}
-        setCategories={setCategories}
         setProducts={setProducts}
         collectionRef={collectionRef}
         getIntoCategory={getIntoCategory}
+        setCurrentPage={setCurrentPage}
       />
       <ProductsGrid products={products} currentProducts={currentProducts} />
       <Pagentation

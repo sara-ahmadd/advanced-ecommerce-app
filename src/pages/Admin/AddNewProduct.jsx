@@ -34,7 +34,7 @@ function AddNewProduct() {
     });
   };
   return (
-    <>
+    <div className="text-center">
       <Form
         product={product}
         setProduct={setProduct}
@@ -46,11 +46,11 @@ function AddNewProduct() {
         onClick={() => {
           navigate(-1);
         }}
-        className="btn btn-primary"
+        className="btn submit-btn w-25 my-3 mx-auto"
       >
         Go Back
       </button>
-    </>
+    </div>
   );
 }
 

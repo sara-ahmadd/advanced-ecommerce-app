@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../components/GeneralComponents/Loader";
 import { deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
@@ -8,7 +7,7 @@ import Swal from "sweetalert2";
 import Search from "../../components/GeneralComponents/Search";
 import Pagentation from "../../components/GeneralComponents/Pagentation";
 import Categories from "../../components/GeneralComponents/Categories";
-import getProducts from "../../functions/getProducts";
+import useGetProducts from "../../hooks/useGetProducts";
 const ProductsList = () => {
   const [products, setProducts] = useState({
     loading: true,
@@ -22,28 +21,18 @@ const ProductsList = () => {
   let lastProduct = currentPage * productsPerPage;
   let firstProduct = lastProduct - productsPerPage;
 
-  const currentProducts = products.ProductList.slice(firstProduct, lastProduct);
-
-  console.log(currentProducts, products.ProductList);
-
-  const deleteSingleProduct = async (id) => {
-    const docRef = doc(dataBase, "products", id);
-    await deleteDoc(docRef);
-  };
-  const deleteProductAlert = (product) => {
-    Swal.fire({
-      title: `You Will Delete This Product : [ ${product.title} ], Are You Sure?`,
-      showCancelButton: true,
-    }).then((res) => {
-      if (res.isConfirmed) {
-        return deleteSingleProduct(product.id);
-      }
+  // Get All Products Without Filters.
+  const { productsArray } = useGetProducts(collectionRef);
+  useEffect(() => {
+    setProducts({
+      loading: false,
+      ProductList: productsArray,
+      error: "",
     });
-  };
+  }, []);
 
-  const [categories, setCategories] = useState([]);
-
-  // Gett Products Of Specific Category.
+  const currentProducts = products.ProductList.slice(firstProduct, lastProduct);
+  // Get Products Of Specific Category.
   const getIntoCategory = (category) => {
     let getCategory = query(
       collectionRef,
@@ -67,26 +56,33 @@ const ProductsList = () => {
         loading: false,
         ProductList: data,
         error: "",
-        category: "",
       });
     });
   };
 
-  // Get All Products Without Filters.
-  useEffect(() => {
-    getProducts(collectionRef, setProducts, setCategories);
-  }, []);
-
+  const deleteSingleProduct = async (id) => {
+    const docRef = doc(dataBase, "products", id);
+    await deleteDoc(docRef);
+  };
+  const deleteProductAlert = (product) => {
+    Swal.fire({
+      title: `You Will Delete This Product : [ ${product.title} ], Are You Sure?`,
+      showCancelButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        return deleteSingleProduct(product.id);
+      }
+    });
+  };
   return (
     <div>
       <h1 className="text-success">Products</h1>
       <Search products={currentProducts} setProducts={setProducts} />
       <Categories
-        categories={categories}
-        setCategories={setCategories}
-        setProducts={setProducts}
         collectionRef={collectionRef}
+        setProducts={setProducts}
         getIntoCategory={getIntoCategory}
+        setCurrentPage={setCurrentPage}
       />
       <table className="table table-hover">
         <thead>

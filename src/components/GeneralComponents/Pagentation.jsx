@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 const Pagentation = ({
   products = [],
   currentPage,
@@ -14,7 +12,7 @@ const Pagentation = ({
     pagesCountArray.push(i);
   }
 
-  console.log(currentPage);
+  // console.log(currentPage);
 
   const onChange = (number) => {
     setCurrentPage(number);

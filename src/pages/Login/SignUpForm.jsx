@@ -5,8 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import "./_form.scss";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebase";
+import { auth, usersCollectionRef } from "../../firebase/firebase";
 import Loader from "../../components/GeneralComponents/Loader";
+import { addDoc } from "firebase/firestore";
 
 const SignUpForm = () => {
   const [form, setForm] = useState({
@@ -24,20 +25,13 @@ const SignUpForm = () => {
       [e.target.name]: e.target.value,
     });
   };
-  // const { loading } = useSelector((state) => {
-  //   return {
-  //     loading: state.loaderReducer.loading,
-  //   };
-  // });
-  // console.log(loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    const { email, password } = form;
+    const { email, password, firstName, lastName } = form;
     e.preventDefault();
 
-    // dispatch(loaderActions.isLoading());
     setLoader(true);
 
     if (password === confirmPassword) {
@@ -47,13 +41,16 @@ const SignUpForm = () => {
           setLoader(false);
 
           dispatch(userActions.register(form));
-
-          // dispatch(loaderActions.isNotLoading());
-
+          //add each new user to users collection
+          addDoc(usersCollectionRef, {
+            firstName,
+            lastName,
+            email,
+            cart: [],
+          }).then((res) => console.log(res));
           navigate("/login");
         })
         .catch((err) => {
-          // dispatch(loaderActions.isNotLoading());
           toast.error(`${err.message}`);
           console.log(err.message);
         });

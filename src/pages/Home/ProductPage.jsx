@@ -4,6 +4,7 @@ import { cartActions } from "../../reduxToolkit/CartSlice/CartSlice";
 import { useDispatch } from "react-redux";
 import { doc, getDoc } from "firebase/firestore";
 import { dataBase } from "../../firebase/firebase";
+import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 
 // import { cartActions } from "../../reduxToolkit/cart/cart";
 
@@ -57,7 +58,10 @@ function ProductPage() {
         Go Home
       </Link>
       <button
-        onClick={() => dispatch(cartActions.addToCart(product))}
+        onClick={() => {
+          dispatch(cartActions.addToCart(product))
+          // dispatch(userActions.addToUserCart(product))
+        }}
         className="btn submit-btn text-light w-50 mx-auto mt-2"
       >
         Add To Cart

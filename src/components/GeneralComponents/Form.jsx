@@ -18,65 +18,71 @@ function Form({ product, submitionFunction, changeFunction, formTitle }) {
     isFormValid();
   };
   return (
-    <>
-      <h2 className="text-center text-primary p-2">{formTitle}</h2>
-      <form onSubmit={onSubmitFunction}>
-        <label>ID</label>
+    <div>
+      <h2 className="text-center text-success p-2">{formTitle}</h2>
+      <form onSubmit={onSubmitFunction} className="text-start my-3 mx-auto">
+        <label className="form-label">ID</label>
         <input
           type="text"
+          className="form-control"
           value={product.productId}
           onChange={(e) => changeFunction(e)}
           placeholder="Product id"
           name="productId"
         />
         <hr />
-        <label>Name</label>
+        <label className="form-label">Name</label>
         <input
           type="text"
+          className="form-control"
           value={product.title}
           onChange={(e) => changeFunction(e)}
           placeholder="Product name"
           name="title"
         />
         <hr />
-        <label>Image Link</label>
+        <label className="form-label">Image Link</label>
         <input
           type="text"
+          className="form-control"
           value={product.image}
           onChange={(e) => changeFunction(e)}
           placeholder="Product image url"
           name="image"
         />
         <hr />
-        <label>Category</label>
+        <label className="form-label">Category</label>
         <input
           type="text"
+          className="form-control"
           value={product.category}
           onChange={(e) => changeFunction(e)}
           placeholder="Product category"
           name="category"
         />
         <hr />
-        <label>Price</label>
+        <label className="form-label">Price</label>
         <input
           type="text"
+          className="form-control"
           value={product.price}
           onChange={(e) => changeFunction(e)}
           placeholder="Product price"
           name="price"
         />
         <hr />
-        <label>Description</label>
+        <label className="form-label">Description</label>
         <input
           type="text"
+          className="form-control"
           value={product.description}
           onChange={(e) => changeFunction(e)}
           placeholder="Product Description"
           name="description"
         />
-        <input className="btn btn-primary mt-3" type="submit" value="Submit" />
+        <input className="btn submit-btn mt-3" type="submit" value="Submit" />
       </form>
-    </>
+    </div>
   );
 }
 

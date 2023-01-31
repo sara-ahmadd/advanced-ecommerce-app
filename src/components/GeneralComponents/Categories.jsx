@@ -1,30 +1,28 @@
-// import { getDocs, query, where } from "firebase/firestore";
-// import { useState } from "react";
-// import { collectionRef } from "../../firebase/firebase";
-
-import getProducts from "../../functions/getProducts";
+import useGetProducts from "../../hooks/useGetProducts";
 
 function Categories({
-  categories,
   getIntoCategory,
   setProducts,
-  setCategories,
   collectionRef,
+  setCurrentPage,
 }) {
-  // const [prices, setPrices] = useState([]);
+  const { productsArray } = useGetProducts(collectionRef);
 
-  // const getAccordingToPrice = (price) => {
-  //   let getCategory = query(collectionRef, where("price", ">", price));
-  //   getDocs(getCategory).then((res) => {
-  //     console.log(res);
-  //   });
-  // };
+  let categoryArray = productsArray.map((x) => x.category);
+  let categories = [...new Set(categoryArray)];
 
+  const getProducts = (prodsArray) => {
+    setProducts({
+      loading: false,
+      ProductList: prodsArray,
+      error: "",
+    });
+  };
   return (
     <div className="d-flex gap-3 nav justify-content-center">
       <button
         className="btn nav-link fs-4 nav-item text-success"
-        onClick={() => getProducts(collectionRef, setProducts, setCategories)}
+        onClick={() => getProducts(productsArray)}
       >
         All
       </button>
@@ -35,24 +33,15 @@ function Categories({
               <button
                 key={index}
                 className="category-item btn  nav-link fs-4  nav-item text-success"
-                onClick={() => getIntoCategory(c)}
+                onClick={() => {
+                  getIntoCategory(c);
+                  setCurrentPage(1);
+                }}
               >
                 {c}
               </button>
             );
           })}
-        {/* {prices &&
-          prices.map((price, index) => {
-            return (
-              <button
-                key={index}
-                className="category-item btn  nav-link fs-4  nav-item text-success"
-                onClick={() => getAccordingToPrice(price)}
-              >
-                Price : {price}
-              </button>
-            );
-          })} */}
       </ul>
     </div>
   );

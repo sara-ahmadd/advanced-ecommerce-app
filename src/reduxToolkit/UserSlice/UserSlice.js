@@ -7,6 +7,7 @@ const initialState = {
     userId: null,
   },
   authorized: false,
+  cart: [],
 };
 
 export let UserSlice = createSlice({
@@ -34,6 +35,9 @@ export let UserSlice = createSlice({
         userId: null,
       };
       state.authorized = false;
+    },
+    addToUserCart: (state, action) => {
+      state.cart = [...state.cart, action.payload];
     },
   },
 });

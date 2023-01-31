@@ -19,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 export const dataBase = getFirestore();
 
 export const collectionRef = collection(dataBase, "products");
-
+export const usersCollectionRef = collection(dataBase, "users");
 
 export const auth = getAuth(app);
 
