@@ -2,7 +2,7 @@ import React from "react";
 import Loader from "../../components/GeneralComponents/Loader";
 import ProductCard from "./ProductCard";
 
-const ProductsGrid = ({ products = [] }) => {
+const ProductsGrid = ({ products, currentProducts }) => {
   return (
     <div className="container ">
       <div className="row my-4 align-items-strech">
@@ -16,8 +16,8 @@ const ProductsGrid = ({ products = [] }) => {
             </div>
           </>
         )}
-        {products.ProductList
-          ? products.ProductList.map((p) => (
+        {currentProducts
+          ? currentProducts.map((p) => (
               <div
                 key={p.id}
                 className="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 "

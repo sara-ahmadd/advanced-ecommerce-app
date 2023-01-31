@@ -1,27 +1,47 @@
+import { useEffect } from "react";
+
 const Pagentation = ({
   products = [],
-  numberOfPages,
-  setNumberOfPages,
+  currentPage,
+  setCurrentPage,
   productsPerPage,
 }) => {
-  let pagesArray = [];
+  let pagesCountArray = [];
 
-  for (let i = 1; i <= products.length / productsPerPage; i++) {
-    pagesArray.push(i);
+  const pagesCount = Math.ceil(products.length / productsPerPage);
+
+  for (let i = 1; i <= pagesCount; i++) {
+    pagesCountArray.push(i);
   }
-  
+
+  console.log(currentPage);
+
   const onChange = (number) => {
-    setNumberOfPages(number);
+    setCurrentPage(number);
+  };
+  const previousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    } else {
+      setCurrentPage(1);
+    }
+  };
+  const nextPage = () => {
+    if (currentPage < pagesCount) {
+      setCurrentPage(currentPage + 1);
+    } else {
+      setCurrentPage(pagesCount);
+    }
   };
   return (
     <div className="my-3 text-center">
       <button
-        onClick={() => setNumberOfPages(numberOfPages - 1)}
+        onClick={previousPage}
         className=" btn px-3 py-1 m-1 text-center submit-btn"
       >
         Previous
       </button>
-      {pagesArray.map((num, index) => {
+      {pagesCountArray.map((num, index) => {
         return (
           <button
             key={index}
@@ -33,7 +53,7 @@ const Pagentation = ({
         );
       })}
       <button
-        onClick={() => setNumberOfPages(numberOfPages + 1)}
+        onClick={nextPage}
         className=" btn px-3 py-1 m-1 text-center submit-btn"
       >
         Next

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import Categories from "./Categories";
-import { getDocs, onSnapshot, query, where } from "firebase/firestore";
+import Categories from "../../components/GeneralComponents/Categories";
+import { onSnapshot, query, where } from "firebase/firestore";
 import { collectionRef } from "../../firebase/firebase";
 import ProductsGrid from "./ProductsGrid";
 import Pagentation from "../../components/GeneralComponents/Pagentation";
@@ -12,16 +12,18 @@ const Products = () => {
     loading: true,
     ProductList: [],
     error: "",
-    category: "",
   });
-  const [categories, setCategories] = useState([]);
 
-  const [numberOfPages, setNumberOfPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const productsPerPage = 8;
-  let lastProduct = numberOfPages * productsPerPage;
+  const [productsPerPage] = useState(8);
+
+  let lastProduct = currentPage * productsPerPage;
   let firstProduct = lastProduct - productsPerPage;
 
+  const currentProducts = products.ProductList.slice(firstProduct, lastProduct);
+
+  const [categories, setCategories] = useState([]);
   // Get All Products Without Filters.
   const getAllProducts = () => {
     onSnapshot(collectionRef, (res) => {
@@ -43,7 +45,7 @@ const Products = () => {
         setCategories([...new Set(categoryArray)]);
         setProducts({
           loading: false,
-          ProductList: data.slice(firstProduct, lastProduct),
+          ProductList: data,
           error: "",
           category: "",
         });
@@ -84,7 +86,7 @@ const Products = () => {
       });
       setProducts({
         loading: false,
-        ProductList: data.slice(firstProduct, lastProduct),
+        ProductList: data,
         error: "",
         category: "",
       });
@@ -96,18 +98,19 @@ const Products = () => {
       <h1 className="fs-2 text-center text-success">
         BROWSE OUR NEW COLLECTION
       </h1>
-      <Search products={products} setProducts={setProducts} />
+      <Search products={currentProducts} setProducts={setProducts} />
       {/* Filtration according to category */}
       <Categories
         categories={categories}
         getAll={getAllProducts}
         getIntoCategory={getIntoCategory}
       />
-      <ProductsGrid products={products} />
+      <ProductsGrid products={products} currentProducts={currentProducts} />
       <Pagentation
         products={products.ProductList}
-        numberOfPages={numberOfPages}
-        setNumberOfPages={setNumberOfPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        productsPerPage={productsPerPage}
       />
     </div>
   );

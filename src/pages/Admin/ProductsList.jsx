@@ -2,22 +2,28 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../components/GeneralComponents/Loader";
-import { deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
 import { collectionRef, dataBase } from "../../firebase/firebase";
 import Swal from "sweetalert2";
 import Search from "../../components/GeneralComponents/Search";
 import Pagentation from "../../components/GeneralComponents/Pagentation";
+import Categories from "../../components/GeneralComponents/Categories";
 const ProductsList = () => {
   const [products, setProducts] = useState({
     loading: true,
     ProductList: [],
     error: "",
-    category: "",
   });
-  const productsPerPage = 8;
-  const [numberOfPages, setNumberOfPages] = useState(1);
-  let lastProduct = numberOfPages * productsPerPage;
+  const [productsPerPage] = useState(5);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  let lastProduct = currentPage * productsPerPage;
   let firstProduct = lastProduct - productsPerPage;
+
+  const currentProducts = products.ProductList.slice(firstProduct, lastProduct);
+
+  console.log(currentProducts, products.ProductList);
 
   const deleteSingleProduct = async (id) => {
     const docRef = doc(dataBase, "products", id);
@@ -34,8 +40,54 @@ const ProductsList = () => {
     });
   };
 
+  const [categories, setCategories] = useState([]);
+  // Get All Products Without Filters.
   const getAllProducts = () => {
     onSnapshot(collectionRef, (res) => {
+      try {
+        let data = res.docs.map((x) => {
+          let { image, price, description, title, productId, category } =
+            x.data();
+          return {
+            id: x.id,
+            image,
+            price,
+            description,
+            title,
+            productId,
+            category,
+          };
+        });
+        let categoryArray = data.map((x) => x.category);
+        setCategories([...new Set(categoryArray)]);
+        setProducts({
+          loading: false,
+          ProductList: data,
+          error: "",
+          category: "",
+        });
+      } catch (error) {
+        setProducts({
+          loading: false,
+          ProductList: [],
+          error: error.message,
+          category: "",
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  // Gett Products Of Specific Category.
+  const getIntoCategory = (category) => {
+    let getCategory = query(
+      collectionRef,
+      where("category", "==", `${category}`)
+    );
+    onSnapshot(getCategory, (res) => {
       let data = res.docs.map((x) => {
         let { image, price, description, title, productId, category } =
           x.data();
@@ -51,12 +103,13 @@ const ProductsList = () => {
       });
       setProducts({
         loading: false,
-        ProductList: data.slice(firstProduct, lastProduct),
+        ProductList: data,
         error: "",
         category: "",
       });
     });
   };
+
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -64,7 +117,12 @@ const ProductsList = () => {
   return (
     <div>
       <h1 className="text-success">Products</h1>
-      <Search products={products} setProducts={setProducts} />
+      <Search products={currentProducts} setProducts={setProducts} />
+      <Categories
+        categories={categories}
+        getAll={getAllProducts}
+        getIntoCategory={getIntoCategory}
+      />
       <table className="table table-hover">
         <thead>
           <tr>
@@ -83,8 +141,8 @@ const ProductsList = () => {
               </td>
             </tr>
           )}
-          {products.ProductList ? (
-            products.ProductList.map((p) => (
+          {currentProducts ? (
+            currentProducts.map((p) => (
               <tr key={p.id}>
                 <td>{p.productId}</td>
                 <td>{p.title}</td>
@@ -123,8 +181,8 @@ const ProductsList = () => {
       </table>
       <Pagentation
         products={products.ProductList}
-        numberOfPages={numberOfPages}
-        setNumberOfPages={setNumberOfPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
         productsPerPage={productsPerPage}
       />
     </div>
