@@ -1,12 +1,13 @@
 import React from "react";
 import Slider from "./Slider";
-import Products from "./Products";
+
+import GetAllProducts from "../../components/products/GetAllProducts";
 
 const Home = () => {
   return (
     <section className="container custom-container">
       <Slider />
-      <Products />
+      <GetAllProducts page={"home"} />
     </section>
   );
 };

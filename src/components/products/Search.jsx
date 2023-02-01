@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { collectionRef } from "../../firebase/firebase";
 import { onSnapshot } from "firebase/firestore";
 
-const Search = ({ products, setProducts }) => {
+const Search = ({ products, getAllProducts, setProducts }) => {
   const [search, setSearch] = useState("");
   // Filtration according to value in search field.
-  const gatAllMatches = (value = "") => {
+  const getAllMatches = (value = "") => {
     onSnapshot(collectionRef, (res) => {
       let data = res.docs
         .map((x) => {
@@ -39,8 +39,10 @@ const Search = ({ products, setProducts }) => {
         placeholder="Search"
         onChange={(e) => {
           setSearch(e.target.value);
-          console.log(search);
-          gatAllMatches(search);
+          getAllMatches(search);
+          if (e.target.value === "") {
+            getAllProducts();
+          }
         }}
       />
     </div>

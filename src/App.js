@@ -6,14 +6,12 @@ import User from "./pages/User/User";
 import SignUpForm from "./pages/Login/SignUpForm";
 import RequireAuth from "./components/GeneralComponents/RequireAuth";
 import ResetPassword from "./pages/Login/ResetPassword";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ProductPage from "./pages/Home/ProductPage";
-import ProductPageII from "./pages/Admin/ProductPage";
+import ProductPage from "./components/products/ProductPage";
 import AddNewProduct from "./pages/Admin/AddNewProduct";
 import EditProduct from "./pages/Admin/EditProduct";
-import Products from "./pages/Home/Products";
+import GetAllProducts from "./components/products/GetAllProducts";
 
 const { Home, Admin, Cart, Contact, Orders, LoginForm } = Pages;
 const { Header, Footer, ErrorBoundary, NotFound } = Components;
@@ -27,8 +25,8 @@ function App() {
       </ErrorBoundary>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="products" element={<Products />} />
-        <Route path="products/:id" element={<ProductPage />} />
+        <Route path="products" element={<GetAllProducts page={"home"} />} />
+        <Route path="products/:id" element={<ProductPage page={"home"} />} />
         <Route
           path="admin"
           element={
@@ -37,7 +35,7 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="admin/products/:id" element={<ProductPageII />} />
+        <Route path="admin/products/:id" element={<ProductPage />} />
         <Route path="admin/addNewProduct" element={<AddNewProduct />} />
         <Route path="admin/edit/:id" element={<EditProduct />} />
 

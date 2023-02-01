@@ -12,7 +12,7 @@ const Pagentation = ({
     pagesCountArray.push(i);
   }
 
-  // console.log(currentPage);
+
 
   const onChange = (number) => {
     setCurrentPage(number);

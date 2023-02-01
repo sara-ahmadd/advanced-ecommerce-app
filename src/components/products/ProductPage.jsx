@@ -1,15 +1,15 @@
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { cartActions } from "../../reduxToolkit/CartSlice/CartSlice";
+import { useDispatch } from "react-redux";
 import { doc, getDoc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { collectionRef, dataBase } from "../../firebase/firebase";
-// import "../../css/single-product.css";
+import { dataBase } from "../../firebase/firebase";
+import AddToCartBtn from "./AddToCartBtn";
+// import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 
-// import { cartActions } from "../../reduxToolkit/cart/cart";
-
-function ProductPage() {
+function ProductPage({ page }) {
   const params = useParams();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [product, setProduct] = useState({
     id: 0,
     title: "",
@@ -23,7 +23,6 @@ function ProductPage() {
     getDoc(docRef)
       .then((res) => {
         const product = res.data();
-        console.log(product);
         setProduct({
           id: product.productId,
           title: product.title,
@@ -34,13 +33,18 @@ function ProductPage() {
         });
       })
       .catch((err) => console.log(err));
-  }, [params]);
+  }, [params, docRef]);
+
+  const addProductToCart = () => {
+    dispatch(cartActions.addToCart(product));
+  };
+
   return (
-    <div className="card col-10 col-md-6 col-sm-4 mx-auto my-2 p-1">
+    <div className="card col-10 col-sm-2 col-md-4  mx-auto my-2 p-1">
       <img
         src={product.image}
         className="card-img-top mx-auto"
-        style={{ width: "60%", height: "350px" }}
+        style={{ width: "50%", height: "350px" }}
         alt="img"
       />
       <div className="card-body">
@@ -54,14 +58,17 @@ function ProductPage() {
           {product.price}$
         </p>
       </div>
-      <button
-        onClick={() => {
-          navigate("/admin");
-        }}
-        className="btn submit-btn w-50 mx-auto"
-      >
-        Go Back
-      </button>
+      <Link to={"/"} className="btn submit-btn w-50 mx-auto">
+        Go Home
+      </Link>
+      {page === "home" && (
+        <AddToCartBtn
+          onClickFunction={
+            addProductToCart
+            // dispatch(userActions.addToUserCart(product))
+          }
+        />
+      )}
     </div>
   );
 }

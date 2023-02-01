@@ -1,12 +1,12 @@
 import React from "react";
 import "./_Admin.scss";
 import AdminSidebar from "./AdminSidebar";
-import ProductsList from "./ProductsList";
+import GetAllProducts from "../../components/products/GetAllProducts";
 const Admin = () => {
   return (
     <section className="container custom-container">
       <AdminSidebar />
-      <ProductsList />
+      <GetAllProducts page={"admin"} />
     </section>
   );
 };

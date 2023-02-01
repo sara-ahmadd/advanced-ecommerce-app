@@ -36,8 +36,21 @@ export let UserSlice = createSlice({
       };
       state.authorized = false;
     },
-    addToUserCart: (state, action) => {
-      state.cart = [...state.cart, action.payload];
+    addToCart: (state, action) => {
+      let item = state.products.find((x) => x.id === action.payload.id);
+
+      if (item) {
+        item.quantity += 1;
+      } else {
+        const product = { ...action.payload, quantity: 1 };
+        state.products.push(product);
+      }
+    },
+    deleteFromCart: (state, action) => {
+      state.products = state.products.filter((x) => x.id !== action.payload);
+    },
+    clearCart: (state) => {
+      state.products = [];
     },
   },
 });
