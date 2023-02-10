@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
-import { auth } from "../../firebase/firebase";
+import { auth, usersCollectionRef } from "../../firebase/firebase";
 
 import { Link, useNavigate } from "react-router-dom";
 import { BsGoogle } from "react-icons/bs";
@@ -13,6 +13,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import Loader from "../../components/GeneralComponents/Loader";
+import { addDoc } from "firebase/firestore";
 
 const provider = new GoogleAuthProvider();
 
@@ -44,7 +45,6 @@ function LoginForm() {
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
       .then((userCredintial) => {
         setLoader(false);
-        console.log(userCredintial.user);
         dispatch(
           userActions.login({
             firstName: userName.split(" ")[0],
@@ -74,6 +74,14 @@ function LoginForm() {
             userId: user.uid,
           })
         );
+        //add each new user to users collection
+        addDoc(usersCollectionRef, {
+          firstName: user.displayName.split(" ")[0],
+          lastName: user.displayName.split(" ")[1],
+          email: user.email,
+          userId: user.uid,
+          cart: [],
+        }).then((res) => console.log(res));
         toast.success("You logged in successfully.");
         navigate("/");
       })

@@ -12,11 +12,9 @@ const Slider = () => {
 
   const nextSlide = () => {
     setCurrentIndex(currentIndex === 0 ? lastIndex : currentIndex - 1);
-    
   };
   const prevSlide = () => {
     setCurrentIndex(currentIndex === lastIndex ? 0 : currentIndex + 1);
-  
   };
 
   let timer = 2000;
@@ -64,6 +62,7 @@ const Slider = () => {
             <AiOutlineDoubleLeft />
           </i>
         </button>
+
         <button
           id="right"
           onClick={() => {

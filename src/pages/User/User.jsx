@@ -2,11 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 function User() {
-  const { user } = useSelector((state) => {
-    return {
-      user: state.userReducer.user,
-    };
-  });
+  const user = useSelector((state) => state.userReducer);
   return (
     <div className="container custom-container">
       <h2>

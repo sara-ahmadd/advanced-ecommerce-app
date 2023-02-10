@@ -62,7 +62,9 @@ Side bar styles*/
       width: 100%;
       gap: 6px;
       font-size: 15px;
-      cursor: pointer;
+      border: none;
+      cursor: auto;
+      background-color: transparent;
       @include transition-(0.2s);
       &:hover {
         color: $text-color;

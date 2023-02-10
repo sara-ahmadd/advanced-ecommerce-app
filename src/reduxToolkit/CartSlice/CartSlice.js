@@ -1,23 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  products: [
-    {
-      id: Math.floor(Math.random() * 100 + Math.random() * 100),
-      title: "test product 1",
-      quantity: 1,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqoBg2fJNYeAtEz7BAGncnHUZ1_Gt1kylEzQ&usqp=CAU",
-
-      price: 110,
-    },
-  ],
+  products: [],
 };
 
 const cart = createSlice({
   name: "cartSlice",
   initialState,
   reducers: {
+    refreshCart: (state, action) => {
+      state.products = action.payload;
+    },
     addToCart: (state, action) => {
       let item = state.products.find((x) => x.id === action.payload.id);
 

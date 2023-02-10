@@ -42,7 +42,9 @@
         align-items: center;
         justify-content: center;
         gap: 5px;
-        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        cursor: auto;
         svg {
           background-color: $white-color;
           padding: 5px;

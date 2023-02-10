@@ -1,3 +1,6 @@
+import { Link, NavLink } from "react-router-dom";
+import "./_Pagenation.scss";
+
 const Pagentation = ({
   products = [],
   currentPage,
@@ -11,8 +14,6 @@ const Pagentation = ({
   for (let i = 1; i <= pagesCount; i++) {
     pagesCountArray.push(i);
   }
-
-
 
   const onChange = (number) => {
     setCurrentPage(number);
@@ -32,31 +33,42 @@ const Pagentation = ({
     }
   };
   return (
-    <div className="my-3 text-center">
-      <button
-        onClick={previousPage}
-        className=" btn px-3 py-1 m-1 text-center submit-btn"
-      >
-        Previous
-      </button>
+    <ul className="my-3 text-center pagination d-flex justify-content-center flex-wrap">
+      <li onClick={previousPage} className="page-item">
+        <Link
+          to="."
+          className="page-link btn px-3 py-1 m-1 text-center submit-btn"
+        >
+          Previous
+        </Link>
+      </li>
       {pagesCountArray.map((num, index) => {
         return (
-          <button
+          <li
             key={index}
-            onClick={() => onChange(num)}
-            className=" btn px-3 py-1 m-1 text-center btn-outline-dark"
+            onClick={() => {
+              onChange(num);
+            }}
+            className="page-item"
           >
-            {num}
-          </button>
+            <Link
+              to="."
+              className="page-link btn px-3 py-1 m-1 text-center outline-dark-btn"
+            >
+              {num}
+            </Link>
+          </li>
         );
       })}
-      <button
-        onClick={nextPage}
-        className=" btn px-3 py-1 m-1 text-center submit-btn"
-      >
-        Next
-      </button>
-    </div>
+      <li onClick={nextPage} className="page-item">
+        <Link
+          to="."
+          className="page-link btn px-3 py-1 m-1 text-center submit-btn"
+        >
+          Next
+        </Link>
+      </li>
+    </ul>
   );
 };
 

@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { cartActions } from "../../reduxToolkit/CartSlice/CartSlice";
-import { useDispatch } from "react-redux";
-import { doc, getDoc } from "firebase/firestore";
-import { dataBase } from "../../firebase/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { dataBase, usersCollectionRef } from "../../firebase/firebase";
 import AddToCartBtn from "./AddToCartBtn";
-// import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 
 function ProductPage({ page }) {
   const params = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState({
-    id: 0,
+    id: "",
     title: "",
-    price: "",
+    price: 0,
     description: "",
     image: "",
     category: "",
@@ -35,8 +41,32 @@ function ProductPage({ page }) {
       .catch((err) => console.log(err));
   }, [params, docRef]);
 
+  //get the currently logged in user
+  const user = useSelector((state) => state.userReducer);
+  const userCart = useSelector((state) => state.cart.products);
+
+  //get the data of the same user from (users) collection on firestore database
+  const userQuery = query(
+    usersCollectionRef,
+    where("userId", "==", user.userId)
+  );
+  const [docId, setUserdocId] = useState("");
+
+  useEffect(() => {
+    onSnapshot(userQuery, (snap) => {
+      setUserdocId(snap.docs.map((x) => x.id).join());
+    });
+  }, []);
+
+  let userRef = docId && doc(dataBase, "users", docId);
+
   const addProductToCart = () => {
+    //adding new product to cart of the current user.
     dispatch(cartActions.addToCart(product));
+
+    updateDoc(userRef, {
+      cart: userCart,
+    });
   };
 
   return (
@@ -58,17 +88,13 @@ function ProductPage({ page }) {
           {product.price}$
         </p>
       </div>
-      <Link to={"/"} className="btn submit-btn w-50 mx-auto">
+      <Link
+        to={page === "home" ? "/" : "/admin"}
+        className="btn submit-btn w-50 mx-auto"
+      >
         Go Home
       </Link>
-      {page === "home" && (
-        <AddToCartBtn
-          onClickFunction={
-            addProductToCart
-            // dispatch(userActions.addToUserCart(product))
-          }
-        />
-      )}
+      {page === "home" && <AddToCartBtn onClickFunction={addProductToCart} />}
     </div>
   );
 }

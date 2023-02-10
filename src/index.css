@@ -579,6 +579,16 @@ Side bar styles*/
   position: relative;
   background-color: rgb(215, 244, 236);
 }
+@media (min-width: 768px) and (max-width: 991px) {
+  #header {
+    width: 100vw !important;
+  }
+}
+@media (max-width: 767px) {
+  #header {
+    width: 100vw !important;
+  }
+}
 #header nav {
   width: 100%;
   display: flex;
@@ -938,7 +948,7 @@ a {
 a.active:hover, a.submit-btn:hover {
   color: #fff !important;
 }
-a:hover {
+a.submit-btn:hover {
   color: #000 !important;
 }
 

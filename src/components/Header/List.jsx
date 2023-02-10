@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
 import { GiShoppingCart } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 import { toast } from "react-toastify";
-import { auth } from "../../firebase/firebase";
+import { auth, usersCollectionRef } from "../../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { cartActions } from "../../reduxToolkit/CartSlice/CartSlice";
+import { onSnapshot, query, where } from "firebase/firestore";
 
 function List({ hideSideBar, show }) {
-  const { user, authorized } = useSelector((state) => {
-    return {
-      user: state.userReducer.user,
-      authorized: state.userReducer.authorized,
-    };
-  });
+  const user = useSelector((state) => state.userReducer);
   const cart = useSelector((state) => state.cart.products);
   const navigate = useNavigate();
 
@@ -23,6 +20,15 @@ function List({ hideSideBar, show }) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        const userQuery = query(
+          usersCollectionRef,
+          where("userId", "==", user.uid)
+        );
+        onSnapshot(userQuery, (snap) => {
+          dispatch(
+            cartActions.refreshCart(...snap.docs.map((x) => x.data().cart))
+          );
+        });
         let userName = user.email.slice(0, user.email.indexOf("@"));
         dispatch(
           userActions.login({
@@ -80,11 +86,10 @@ function List({ hideSideBar, show }) {
           Admin
         </NavLink>
       </li>
-      {user && authorized && user.firstName ? (
+      {user && user.firstName ? (
         <>
           <li className="list-item">
-            <NavLink
-              to="/user"
+            <button
               onClick={() => {
                 sideBareDisappear();
               }}
@@ -94,7 +99,7 @@ function List({ hideSideBar, show }) {
                 <BsFillPersonFill />
               </i>
               {user.firstName ? <h2>Hi, {user.firstName}</h2> : null}
-            </NavLink>
+            </button>
           </li>
           <li className="list-item">
             <button
@@ -109,7 +114,7 @@ function List({ hideSideBar, show }) {
               Log Out
             </button>
           </li>
-          <li className="list-item">
+          {/* <li className="list-item">
             <NavLink
               to="/orders"
               onClick={() => {
@@ -118,7 +123,7 @@ function List({ hideSideBar, show }) {
             >
               My Orders
             </NavLink>
-          </li>
+          </li> */}
           <li className="list-item">
             <NavLink
               to="/cart"

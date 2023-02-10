@@ -39,15 +39,17 @@ const SignUpForm = () => {
         .then((userCredintial) => {
           toast.success("You Signed Up Successfully!");
           setLoader(false);
-
           dispatch(userActions.register(form));
+
           //add each new user to users collection
           addDoc(usersCollectionRef, {
             firstName,
-            lastName,
+            lastName: lastName ?? "",
             email,
+            userId: userCredintial.user.uid,
+            authorized: true,
             cart: [],
-          }).then((res) => console.log(res));
+          }).then((res) => console.log(res.id));
           navigate("/login");
         })
         .catch((err) => {
