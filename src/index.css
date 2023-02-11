@@ -382,7 +382,7 @@ form p#success {
 Logo styles.*/
 .logo {
   width: 200px;
-  height: 80px;
+  height: 100px;
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -394,8 +394,8 @@ Logo styles.*/
 }
 .logo img {
   flex: 1;
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
 }
 
 /*
@@ -481,7 +481,9 @@ Side bar styles*/
   width: 100%;
   gap: 6px;
   font-size: 15px;
-  cursor: pointer;
+  border: none;
+  cursor: auto;
+  background-color: transparent;
   transition: 0.2s linear;
   -webkit-transition: 0.2s linear;
   -moz-transition: 0.2s linear;
@@ -520,7 +522,7 @@ Side bar styles*/
 }
 .side-bar .items-list li.list-item > a:hover,
 .side-bar .items-list li .cart-container h2 a:hover {
-  color: rgba(7, 133, 99, 0.933);
+  color: rgba(7, 133, 99, 0.933) !important;
   padding-top: 10px;
 }
 .side-bar .items-list li.list-item > a.active,
@@ -635,7 +637,9 @@ Side bar styles*/
   align-items: center;
   justify-content: center;
   gap: 5px;
-  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  cursor: auto;
 }
 #header nav .items-list .profile svg {
   background-color: #fff;
@@ -673,7 +677,7 @@ Side bar styles*/
   border-bottom: 4px solid #fff;
 }
 #header nav .items-list li.list-item > a:hover, #header nav .items-list li > .cart-container h2 a:hover {
-  color: rgba(7, 133, 99, 0.933);
+  color: rgba(7, 133, 99, 0.933) !important;
 }
 #header nav .items-list li > .cart-container {
   cursor: pointer;
@@ -768,6 +772,29 @@ Side bar styles*/
 
 /*
 Header Styles*/
+.page-number {
+  border: 4px solid #000;
+  color: #000;
+  background-color: #fff !important;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.page-number.active {
+  background-color: rgba(7, 133, 99, 0.933);
+  color: #fff;
+}
+.page-number:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
 /*
 Footer Links Styles: The First Three Links*/
 .social {
@@ -780,7 +807,7 @@ Footer Links Styles: The First Three Links*/
     gap: 5px;
   }
 }
-.social svg {
+.social i {
   font-size: 40px;
   transition: 0.3s linear;
   -webkit-transition: 0.3s linear;
@@ -788,11 +815,11 @@ Footer Links Styles: The First Three Links*/
   -ms-transition: 0.3s linear;
   -o-transition: 0.3s linear;
 }
-.social svg a {
+.social i a {
   color: #000 !important;
 }
-.social svg a:hover {
-  color: rgba(7, 133, 99, 0.933);
+.social i a:hover {
+  color: rgba(7, 133, 99, 0.933) !important;
   cursor: pointer;
 }
 

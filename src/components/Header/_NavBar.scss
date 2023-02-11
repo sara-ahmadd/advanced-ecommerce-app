@@ -35,7 +35,7 @@
         width: 30%;
         gap: 10px;
       }
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: bold;
       .profile {
         display: flex;
@@ -43,9 +43,10 @@
         justify-content: center;
         gap: 5px;
         border: none;
-        background-color: transparent;
         cursor: auto;
+        background-color: transparent;
         svg {
+          cursor: auto;
           background-color: $white-color;
           padding: 5px;
           height: 40px;
@@ -54,6 +55,7 @@
         }
         h2 {
           color: $dim-white-color;
+          cursor: auto;
           font-size: 20px;
         }
       }
@@ -61,6 +63,7 @@
         height: 100%;
         font-size: 15px;
         &.list-item > a,
+        &.list-item > button,
         & > .cart-container h2 a {
           cursor: pointer;
           width: 100%;
@@ -69,11 +72,11 @@
           text-align: center;
           @include transition-(0.2s);
           &.active {
-            color: $text-color;
-            border-bottom: 4px solid $white-color;
+            color: $text-color !important;
+            border-bottom: 4px solid $white-color !important;
           }
           &:hover {
-            color: $text-color;
+            color: $text-color !important;
           }
         }
         & > .cart-container {
@@ -112,9 +115,12 @@
           background-color: #fff;
           font-weight: bold;
           font-size: 1rem;
-          &:focus {
+          @include transition-(0.2s);
+          &:hover,
+          &.active {
             outline: none;
             background-color: #eee;
+            color: $text-color !important;
           }
         }
       }

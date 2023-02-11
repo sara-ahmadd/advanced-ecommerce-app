@@ -9,13 +9,13 @@ Footer Links Styles: The First Three Links*/
   @include myMediaQueries(small) {
     gap: 5px;
   }
-  svg {
+  i {
     font-size: 40px;
-    @include transition-(0.3s);
     a {
       color: $black-color !important;
+      @include transition-(0.3s);
       &:hover {
-        color: $text-color;
+        color: $text-color !important;
         cursor: pointer;
       }
     }

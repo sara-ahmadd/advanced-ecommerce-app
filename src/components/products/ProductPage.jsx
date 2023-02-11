@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { dataBase, usersCollectionRef } from "../../firebase/firebase";
 import AddToCartBtn from "./AddToCartBtn";
+import { async } from "@firebase/util";
 
 function ProductPage({ page }) {
   const params = useParams();
@@ -43,30 +44,35 @@ function ProductPage({ page }) {
 
   //get the currently logged in user
   const user = useSelector((state) => state.userReducer);
-  const userCart = useSelector((state) => state.cart.products);
+  let userCart = useSelector((state) => state.cart.products);
 
-  //get the data of the same user from (users) collection on firestore database
-  const userQuery = query(
-    usersCollectionRef,
-    where("userId", "==", user.userId)
-  );
   const [docId, setUserdocId] = useState("");
 
+  //get the data of the same user from (users) collection on firestore database
   useEffect(() => {
-    onSnapshot(userQuery, (snap) => {
+    const userQuery =
+      usersCollectionRef &&
+      query(usersCollectionRef, where("userId", "==", user.userId));
+    const unsub = onSnapshot(userQuery, (snap) => {
       setUserdocId(snap.docs.map((x) => x.id).join());
     });
+    return unsub;
   }, []);
 
   let userRef = docId && doc(dataBase, "users", docId);
+  //this state is a dependency for useEffect to update user cart in the database
+  const [add, setAdd] = useState(false);
+  useEffect(() => {
+    //adding new product to cart of the current user in database by updating user field.
+    add &&
+      updateDoc(userRef, {
+        cart: userCart,
+      });
+  }, [add]);
 
-  const addProductToCart = () => {
+  let addProductToCart = () => {
     //adding new product to cart of the current user.
     dispatch(cartActions.addToCart(product));
-
-    updateDoc(userRef, {
-      cart: userCart,
-    });
   };
 
   return (
@@ -94,7 +100,9 @@ function ProductPage({ page }) {
       >
         Go Home
       </Link>
-      {page === "home" && <AddToCartBtn onClickFunction={addProductToCart} />}
+      {user.authorized && page === "home" && (
+        <AddToCartBtn onClickFunction={addProductToCart} setAdd={setAdd} />
+      )}
     </div>
   );
 }

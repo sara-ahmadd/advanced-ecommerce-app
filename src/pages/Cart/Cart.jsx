@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { cartActions } from "../../reduxToolkit/CartSlice/CartSlice";
-import { useEffect } from "react";
-import { onSnapshot, query, updateDoc, where } from "firebase/firestore";
-import { usersCollectionRef } from "../../firebase/firebase";
+import { useEffect, useState } from "react";
+import { doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { dataBase, usersCollectionRef } from "../../firebase/firebase";
 import Swal from "sweetalert2";
 
 function Cart() {
@@ -12,53 +12,54 @@ function Cart() {
 
   const user = useSelector((state) => state.userReducer);
   const userCart = useSelector((state) => state.cart.products);
+  const [docId, setDocId] = useState("");
 
-  const userQuery = query(
-    usersCollectionRef,
-    where("userId", "==", user.userId)
-  );
   useEffect(() => {
-    onSnapshot(userQuery, (snap) => {
+    const userQuery =
+      usersCollectionRef &&
+      query(usersCollectionRef, where("userId", "==", user.userId));
+    const unsub = onSnapshot(userQuery, (snap) => {
       dispatch(cartActions.refreshCart(...snap.docs.map((x) => x.data().cart)));
+      setDocId(snap.docs.map((x) => x.id).join());
     });
+    return unsub;
   }, []);
 
-  const deleteProduct = (id) => {
-    dispatch(cartActions.deleteFromCart(id));
-    updateDoc(userQuery, {
-      cart: userCart,
-    });
-  };
+  const [deleteProd, setDeleteProd] = useState(false);
 
+  useEffect(() => {
+    let userRef = docId && doc(dataBase, "users", docId);
+    deleteProd &&
+      updateDoc(userRef, {
+        cart: userCart,
+      });
+  }, [deleteProd, userCart]);
+
+  //adding alert before clearing product from the cart
   const deleteProductAlert = (id, title) => {
     Swal.fire({
       title: `You Will Delete This Product : [ ${title} ], Are You Sure?`,
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        return deleteProduct(id);
+        dispatch(cartActions.deleteFromCart(id));
       }
     });
   };
 
-  const clearCart = () => {
-    dispatch(cartActions.clearCart());
-    updateDoc(userQuery, {
-      cart: userCart,
-    });
-  };
-
+  //adding alert before clearing the cart
   const clearAllProducts = () => {
     Swal.fire({
       title: `You Will Delete All Products In Your Cart, Are You Sure?`,
       showCancelButton: true,
     }).then((res) => {
       if (res.isConfirmed) {
-        return clearCart();
+        dispatch(cartActions.clearCart());
+        setDeleteProd(true);
       }
     });
   };
-
+  //get total prices of products in the cart
   const totalPrice =
     userCart &&
     userCart.reduce((acc, product) => {
@@ -103,6 +104,7 @@ function Cart() {
                       className="btn btn-danger"
                       onClick={() => {
                         deleteProductAlert(id, title);
+                        setDeleteProd(true);
                       }}
                     >
                       Delete
@@ -127,9 +129,10 @@ function Cart() {
           className="w-25 h-25 btn btn-danger m-3"
           onClick={() => {
             clearAllProducts();
+            setDeleteProd(true);
           }}
         >
-          Delete Cart
+          Clear Cart
         </button>
       </div>
     </div>

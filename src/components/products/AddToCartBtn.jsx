@@ -1,10 +1,13 @@
 import React from "react";
 
-const AddToCartBtn = ({ onClickFunction }) => {
+const AddToCartBtn = ({ onClickFunction, setAdd }) => {
   return (
     <button
       className="btn submit-btn text-light w-50 mx-auto mt-2"
-      onClick={() => onClickFunction()}
+      onClick={() => {
+        onClickFunction();
+        setAdd(true);
+      }}
     >
       Add To Cart
     </button>

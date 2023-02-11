@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BsFillPersonFill } from "react-icons/bs";
 import { GiShoppingCart } from "react-icons/gi";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 import { toast } from "react-toastify";
 import { auth, usersCollectionRef } from "../../firebase/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { deleteUser, onAuthStateChanged, signOut } from "firebase/auth";
 import { cartActions } from "../../reduxToolkit/CartSlice/CartSlice";
 import { onSnapshot, query, where } from "firebase/firestore";
 
@@ -20,10 +20,9 @@ function List({ hideSideBar, show }) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const userQuery = query(
-          usersCollectionRef,
-          where("userId", "==", user.uid)
-        );
+        const userQuery =
+          usersCollectionRef &&
+          query(usersCollectionRef, where("userId", "==", user.uid));
         onSnapshot(userQuery, (snap) => {
           dispatch(
             cartActions.refreshCart(...snap.docs.map((x) => x.data().cart))
@@ -44,6 +43,7 @@ function List({ hideSideBar, show }) {
         );
       } else {
         dispatch(userActions.logOut());
+        signOut(auth);
       }
     });
   }, [dispatch]);
@@ -75,19 +75,20 @@ function List({ hideSideBar, show }) {
           Contact
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to="/admin"
-          onClick={() => {
-            sideBareDisappear();
-          }}
-          className="admin-btn"
-        >
-          Admin
-        </NavLink>
-      </li>
+
       {user && user.firstName ? (
         <>
+          <li>
+            <NavLink
+              to="/admin"
+              onClick={() => {
+                sideBareDisappear();
+              }}
+              className="admin-btn"
+            >
+              Admin
+            </NavLink>
+          </li>
           <li className="list-item">
             <button
               onClick={() => {
@@ -99,6 +100,21 @@ function List({ hideSideBar, show }) {
                 <BsFillPersonFill />
               </i>
               {user.firstName ? <h2>Hi, {user.firstName}</h2> : null}
+            </button>
+          </li>
+          <li className="list-item">
+            <button
+              onClick={() => {
+                sideBareDisappear();
+                dispatch(userActions.logOut());
+                //deleting user account from database
+                deleteUser(user);
+                toast.success("You Signed out.");
+                navigate("/login");
+              }}
+              className="logOut-btn"
+            >
+              Delete Account
             </button>
           </li>
           <li className="list-item">

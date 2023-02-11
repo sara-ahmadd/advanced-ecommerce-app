@@ -1,13 +1,18 @@
 @use "../../sass/global/mixins" as *;
 @use "../../sass/global/variables" as *;
 .page-number {
-  border: 4px solid $black-color;
+  border: 1px solid $black-color;
   color: $black-color;
   background-color: $white-color !important;
   width: 100%;
   height: 100%;
-
+  @include border-radius-10px;
+  &.active {
+    background-color: $text-color !important;
+    color: $white-color !important;
+  }
   &:hover {
-    color: $black-color !important;
+    background-color: $black-color !important;
+    color: $white-color !important;
   }
 }
