@@ -102,7 +102,7 @@ function List({ hideSideBar, show }) {
               {user.firstName ? <h2>Hi, {user.firstName}</h2> : null}
             </button>
           </li>
-          <li className="list-item">
+          {/* <li className="list-item">
             <button
               onClick={() => {
                 sideBareDisappear();
@@ -116,7 +116,7 @@ function List({ hideSideBar, show }) {
             >
               Delete Account
             </button>
-          </li>
+          </li> */}
           <li className="list-item">
             <button
               onClick={() => {

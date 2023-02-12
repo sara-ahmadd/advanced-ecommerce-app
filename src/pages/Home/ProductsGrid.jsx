@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 
 const ProductsGrid = ({ products, currentProducts }) => {
   return (
-    <div className="container ">
+    <div className="container" id="products-grid">
       <div className="row my-4 align-items-strech">
         {products.loading && (
           <>

@@ -5,6 +5,7 @@ import SingleSlide from "./SingleSlide";
 import { AiOutlineDoubleLeft } from "react-icons/ai";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Slider = () => {
   let [currentIndex, setCurrentIndex] = useState(0);
@@ -40,6 +41,16 @@ const Slider = () => {
   return (
     <div className="slider-container">
       <div className="slider-items">
+        <div className="text">
+          <h2>If you’re looking to buy something special, shop here.</h2>
+          <p>
+            When life gives you lemons, make lemonade. When life gives you
+            shopping carts, push them back to the store.
+          </p>
+          <a href="#products-grid" className="btn btn-primary submit-btn">
+            Shop Now
+          </a>
+        </div>
         <div className="slider">
           {images ? (
             images.map((x, index) => {
