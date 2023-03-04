@@ -54,9 +54,9 @@ Cart Styles*/
 /*
 Home Styles*/
 .slider-container {
-  margin: 10px auto;
-  width: 90vw;
+  width: 100%;
   height: 90vh;
+  margin: 10px auto;
   position: relative;
 }
 .slider-container::after {
@@ -92,7 +92,7 @@ Home Styles*/
   -o-transform: translate(-50%, -50%);
   width: 70%;
   height: fit-content;
-  z-index: 4;
+  z-index: 5;
 }
 .slider-container .slider-items .slider {
   position: absolute;
@@ -140,6 +140,7 @@ Home Styles*/
   position: absolute;
   z-index: 4;
   top: 50%;
+  display: none;
   transform: translateY(50%);
   -webkit-transform: translateY(50%);
   -moz-transform: translateY(50%);

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../reduxToolkit/UserSlice/UserSlice";
 import { toast } from "react-toastify";
 import { auth, usersCollectionRef } from "../../firebase/firebase";
-import { deleteUser, onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { cartActions } from "../../reduxToolkit/CartSlice/CartSlice";
 import { onSnapshot, query, where } from "firebase/firestore";
 
